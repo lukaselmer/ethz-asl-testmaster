@@ -1,0 +1,27 @@
+<h1>Listing test_runs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @test_runs.each do |test_run| %>
+      <tr>
+        <td><%= test_run.state %></td>
+        <td><%= link_to 'Show', test_run %></td>
+        <td><%= link_to 'Edit', edit_test_run_path(test_run) %></td>
+        <td><%= link_to 'Destroy', test_run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Test run', new_test_run_path %>

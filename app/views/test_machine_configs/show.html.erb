@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @test_machine_config.name %>
+</p>
+
+<p>
+  <strong>Command line arguments:</strong>
+  <%= @test_machine_config.command_line_arguments %>
+</p>
+
+<p>
+  <strong>Test run:</strong>
+  <%= @test_machine_config.test_run %>
+</p>
+
+<%= link_to 'Edit', edit_test_machine_config_path(@test_machine_config) %> |
+<%= link_to 'Back', test_machine_configs_path %>

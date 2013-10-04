@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131004223408) do
+ActiveRecord::Schema.define(version: 20131004233048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,38 @@ ActiveRecord::Schema.define(version: 20131004223408) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "test_machine_configs", force: true do |t|
+    t.string   "name"
+    t.text     "command_line_arguments"
+    t.integer  "test_run_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "test_machine_configs", ["test_run_id"], name: "index_test_machine_configs_on_test_run_id", using: :btree
+
+  create_table "test_run_logs", force: true do |t|
+    t.datetime "logged_at"
+    t.string   "message_type"
+    t.text     "message_content"
+    t.integer  "execution_in_microseconds"
+    t.integer  "test_run_id"
+    t.integer  "test_machine_config_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "test_run_logs", ["test_machine_config_id"], name: "index_test_run_logs_on_test_machine_config_id", using: :btree
+  add_index "test_run_logs", ["test_run_id"], name: "index_test_run_logs_on_test_run_id", using: :btree
+
+  create_table "test_runs", force: true do |t|
+    t.string   "state"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

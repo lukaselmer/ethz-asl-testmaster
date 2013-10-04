@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Logged at:</strong>
+  <%= @test_run_log.logged_at %>
+</p>
+
+<p>
+  <strong>Message type:</strong>
+  <%= @test_run_log.message_type %>
+</p>
+
+<p>
+  <strong>Message content:</strong>
+  <%= @test_run_log.message_content %>
+</p>
+
+<p>
+  <strong>Execution in microseconds:</strong>
+  <%= @test_run_log.execution_in_microseconds %>
+</p>
+
+<p>
+  <strong>Test run:</strong>
+  <%= @test_run_log.test_run %>
+</p>
+
+<p>
+  <strong>Test machine config:</strong>
+  <%= @test_run_log.test_machine_config %>
+</p>
+
+<%= link_to 'Edit', edit_test_run_log_path(@test_run_log) %> |
+<%= link_to 'Back', test_run_logs_path %>

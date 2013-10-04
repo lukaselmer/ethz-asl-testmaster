@@ -1,0 +1,37 @@
+<h1>Listing test_run_logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Logged at</th>
+      <th>Message type</th>
+      <th>Message content</th>
+      <th>Execution in microseconds</th>
+      <th>Test run</th>
+      <th>Test machine config</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @test_run_logs.each do |test_run_log| %>
+      <tr>
+        <td><%= test_run_log.logged_at %></td>
+        <td><%= test_run_log.message_type %></td>
+        <td><%= test_run_log.message_content %></td>
+        <td><%= test_run_log.execution_in_microseconds %></td>
+        <td><%= test_run_log.test_run %></td>
+        <td><%= test_run_log.test_machine_config %></td>
+        <td><%= link_to 'Show', test_run_log %></td>
+        <td><%= link_to 'Edit', edit_test_run_log_path(test_run_log) %></td>
+        <td><%= link_to 'Destroy', test_run_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Test run log', new_test_run_log_path %>
