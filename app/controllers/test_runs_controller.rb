@@ -26,28 +26,20 @@ class TestRunsController < ApplicationController
   def create
     @test_run = TestRun.new(test_run_params)
 
-    respond_to do |format|
-      if @test_run.save
-        format.html { redirect_to @test_run, notice: 'Test run was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @test_run }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @test_run.errors, status: :unprocessable_entity }
-      end
+    if @test_run.save
+      redirect_to @test_run, notice: 'Test run was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
   # PATCH/PUT /test_runs/1
   # PATCH/PUT /test_runs/1.json
   def update
-    respond_to do |format|
-      if @test_run.update(test_run_params)
-        format.html { redirect_to @test_run, notice: 'Test run was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @test_run.errors, status: :unprocessable_entity }
-      end
+    if @test_run.update(test_run_params)
+      redirect_to @test_run, notice: 'Test run was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
@@ -55,20 +47,18 @@ class TestRunsController < ApplicationController
   # DELETE /test_runs/1.json
   def destroy
     @test_run.destroy
-    respond_to do |format|
-      format.html { redirect_to test_runs_url }
-      format.json { head :no_content }
-    end
+    redirect_to test_runs_url
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_test_run
-      @test_run = TestRun.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_test_run
+    @test_run = TestRun.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def test_run_params
-      params.require(:test_run).permit(:state)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def test_run_params
+    params.require(:test_run).permit(:state)
+  end
+
 end

@@ -1,1 +1,2 @@
-Machine = Struct.new(:host, :private_key, :profile)
+class Machine < ActiveRecord::Base
+end

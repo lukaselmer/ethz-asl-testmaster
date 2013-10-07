@@ -20,6 +20,11 @@ require 'spec_helper'
 
 describe TestRunLogsController do
 
+  before (:each) do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # TestRunLog. As you add validations to TestRunLog, be sure to
   # adjust the attributes here as well.

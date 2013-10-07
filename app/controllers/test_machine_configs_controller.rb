@@ -26,28 +26,21 @@ class TestMachineConfigsController < ApplicationController
   def create
     @test_machine_config = TestMachineConfig.new(test_machine_config_params)
 
-    respond_to do |format|
-      if @test_machine_config.save
-        format.html { redirect_to @test_machine_config, notice: 'Test machine config was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @test_machine_config }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @test_machine_config.errors, status: :unprocessable_entity }
-      end
+    if @test_machine_config.save
+
+      redirect_to @test_machine_config, notice: 'Test machine config was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
   # PATCH/PUT /test_machine_configs/1
   # PATCH/PUT /test_machine_configs/1.json
   def update
-    respond_to do |format|
-      if @test_machine_config.update(test_machine_config_params)
-        format.html { redirect_to @test_machine_config, notice: 'Test machine config was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @test_machine_config.errors, status: :unprocessable_entity }
-      end
+    if @test_machine_config.update(test_machine_config_params)
+      redirect_to @test_machine_config, notice: 'Test machine config was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
@@ -55,20 +48,17 @@ class TestMachineConfigsController < ApplicationController
   # DELETE /test_machine_configs/1.json
   def destroy
     @test_machine_config.destroy
-    respond_to do |format|
-      format.html { redirect_to test_machine_configs_url }
-      format.json { head :no_content }
-    end
+    redirect_to test_machine_configs_url
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_test_machine_config
-      @test_machine_config = TestMachineConfig.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_test_machine_config
+    @test_machine_config = TestMachineConfig.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def test_machine_config_params
-      params.require(:test_machine_config).permit(:name, :command_line_arguments, :test_run_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def test_machine_config_params
+    params.require(:test_machine_config).permit(:name, :command_line_arguments, :test_run_id)
+  end
 end

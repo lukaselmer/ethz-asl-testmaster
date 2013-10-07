@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Host:</strong>
+  <%= @machine.host %>
+</p>
+
+<p>
+  <strong>Profile:</strong>
+  <%= @machine.profile %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @machine.state %>
+</p>
+
+<p>
+  <strong>Private key:</strong>
+  <%= @machine.private_key %>
+</p>
+
+<p>
+  <strong>Additional info:</strong>
+  <%= @machine.additional_info %>
+</p>
+
+<%= link_to 'Edit', edit_machine_path(@machine) %> |
+<%= link_to 'Back', machines_path %>
