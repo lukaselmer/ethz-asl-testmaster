@@ -1,0 +1,18 @@
+defaults:
+  adapter: postgresql
+  username: postgres
+  password:
+  database: testmaster_<%= Rails.env %>
+  min_messages: ERROR
+  pool: 5
+  timeout: 5000
+  host: localhost
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

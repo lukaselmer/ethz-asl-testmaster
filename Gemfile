@@ -12,22 +12,24 @@ gem 'font-awesome-rails'
 gem 'devise'
 gem 'figaro'
 gem 'net-ssh'
+gem 'net-scp'
 gem 'pg'
 gem 'simple_form', '>= 3.0.0.rc'
+gem 'aws-sdk', '~> 1.0'
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
+  gem 'binding_of_caller', platforms: [:mri_19, :mri_20, :rbx]
   gem 'meta_request'
   gem 'coffee-rails-source-maps'
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-rspec'
-  gem 'hub', :require=>nil
+  gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
-  gem 'rb-fchange', :require=>false
-  gem 'rb-fsevent', :require=>false
-  gem 'rb-inotify', :require=>false
+  gem 'rb-fchange', require: false
+  gem 'rb-fsevent', require: false
+  gem 'rb-inotify', require: false
 end
 group :development, :test do
   gem 'factory_girl_rails'

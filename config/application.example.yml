@@ -13,3 +13,7 @@ ADMIN_NAME: First User
 ADMIN_EMAIL: user@example.com
 ADMIN_PASSWORD: changeme
 ROLES: [admin]
+AWS_ACCESS_KEY_ID:
+AWS_SECRET_ACCESS_KEY:
+AWS_REGION: eu-west-1
+
