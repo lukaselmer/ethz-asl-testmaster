@@ -20,6 +20,11 @@ require 'spec_helper'
 
 describe ScenariosController do
 
+  before :each do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # Scenario. As you add validations to Scenario, be sure to
   # adjust the attributes here as well.
@@ -77,7 +82,7 @@ describe ScenariosController do
 
       it "redirects to the created scenario" do
         post :create, {:scenario => valid_attributes}, valid_session
-        response.should redirect_to(Scenario.last)
+        response.should redirect_to(scenarios_url)
       end
     end
 
@@ -119,7 +124,7 @@ describe ScenariosController do
       it "redirects to the scenario" do
         scenario = Scenario.create! valid_attributes
         put :update, {:id => scenario.to_param, :scenario => valid_attributes}, valid_session
-        response.should redirect_to(scenario)
+        response.should redirect_to(scenarios_url)
       end
     end
 

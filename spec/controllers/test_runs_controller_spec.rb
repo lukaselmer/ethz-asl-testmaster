@@ -28,7 +28,7 @@ describe TestRunsController do
   # This should return the minimal set of attributes required to create a valid
   # TestRun. As you add validations to TestRun, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "state" => "MyString" } }
+  let(:valid_attributes) { {"name" => "MyString"} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -53,8 +53,14 @@ describe TestRunsController do
 
   describe "GET new" do
     it "assigns a new test_run as @test_run" do
+      Scenario.create!(name: 'test')
       get :new, {}, valid_session
       assigns(:test_run).should be_a_new(TestRun)
+    end
+
+    it "redirects if no scenarios are availible" do
+      get :new, {}, valid_session
+      response.should redirect_to(scenarios_path)
     end
   end
 
@@ -90,14 +96,14 @@ describe TestRunsController do
       it "assigns a newly created but unsaved test_run as @test_run" do
         # Trigger the behavior that occurs when invalid params are submitted
         TestRun.any_instance.stub(:save).and_return(false)
-        post :create, {:test_run => { "state" => "invalid value" }}, valid_session
+        post :create, {:test_run => {"name" => "invalid value"}}, valid_session
         assigns(:test_run).should be_a_new(TestRun)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         TestRun.any_instance.stub(:save).and_return(false)
-        post :create, {:test_run => { "state" => "invalid value" }}, valid_session
+        post :create, {:test_run => {"name" => "invalid value"}}, valid_session
         response.should render_template("new")
       end
     end
@@ -111,8 +117,8 @@ describe TestRunsController do
         # specifies that the TestRun created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        TestRun.any_instance.should_receive(:update).with({ "state" => "MyString" })
-        put :update, {:id => test_run.to_param, :test_run => { "state" => "MyString" }}, valid_session
+        TestRun.any_instance.should_receive(:update).with({"name" => "MyString"})
+        put :update, {:id => test_run.to_param, :test_run => {"name" => "MyString"}}, valid_session
       end
 
       it "assigns the requested test_run as @test_run" do
@@ -133,7 +139,7 @@ describe TestRunsController do
         test_run = TestRun.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         TestRun.any_instance.stub(:save).and_return(false)
-        put :update, {:id => test_run.to_param, :test_run => { "state" => "invalid value" }}, valid_session
+        put :update, {:id => test_run.to_param, :test_run => {"name" => "invalid value"}}, valid_session
         assigns(:test_run).should eq(test_run)
       end
 
@@ -141,7 +147,7 @@ describe TestRunsController do
         test_run = TestRun.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         TestRun.any_instance.stub(:save).and_return(false)
-        put :update, {:id => test_run.to_param, :test_run => { "state" => "invalid value" }}, valid_session
+        put :update, {:id => test_run.to_param, :test_run => {"name" => "invalid value"}}, valid_session
         response.should render_template("edit")
       end
     end
