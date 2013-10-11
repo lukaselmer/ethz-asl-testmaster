@@ -28,112 +28,112 @@ describe MachineConfigsController do
   # This should return the minimal set of attributes required to create a valid
   # MachineConfig. As you add validations to MachineConfig, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { { 'name' => 'MyString'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MachineConfigsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all machine_configs as @machine_configs" do
+  describe 'GET index' do
+    it 'assigns all machine_configs as @machine_configs' do
       machine_config = MachineConfig.create! valid_attributes
       get :index, {}, valid_session
       assigns(:machine_configs).should eq([machine_config])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested machine_config as @machine_config" do
+  describe 'GET show' do
+    it 'assigns the requested machine_config as @machine_config' do
       machine_config = MachineConfig.create! valid_attributes
-      get :show, {:id => machine_config.to_param}, valid_session
+      get :show, {id: machine_config.to_param}, valid_session
       assigns(:machine_config).should eq(machine_config)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new machine_config as @machine_config" do
+  describe 'GET new' do
+    it 'assigns a new machine_config as @machine_config' do
       get :new, {}, valid_session
       assigns(:machine_config).should be_a_new(MachineConfig)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested machine_config as @machine_config" do
+  describe 'GET edit' do
+    it 'assigns the requested machine_config as @machine_config' do
       machine_config = MachineConfig.create! valid_attributes
-      get :edit, {:id => machine_config.to_param}, valid_session
+      get :edit, {id: machine_config.to_param}, valid_session
       assigns(:machine_config).should eq(machine_config)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new MachineConfig" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new MachineConfig' do
         expect {
-          post :create, {:machine_config => valid_attributes}, valid_session
+          post :create, {machine_config: valid_attributes}, valid_session
         }.to change(MachineConfig, :count).by(1)
       end
 
-      it "assigns a newly created machine_config as @machine_config" do
-        post :create, {:machine_config => valid_attributes}, valid_session
+      it 'assigns a newly created machine_config as @machine_config' do
+        post :create, {machine_config: valid_attributes}, valid_session
         assigns(:machine_config).should be_a(MachineConfig)
         assigns(:machine_config).should be_persisted
       end
 
-      it "redirects to the created machine_config" do
-        post :create, {:machine_config => valid_attributes}, valid_session
+      it 'redirects to the created machine_config' do
+        post :create, {machine_config: valid_attributes}, valid_session
         response.should redirect_to(MachineConfig.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved machine_config as @machine_config" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved machine_config as @machine_config' do
         # Trigger the behavior that occurs when invalid params are submitted
         MachineConfig.any_instance.stub(:save).and_return(false)
-        post :create, {:machine_config => { "name" => "invalid value" }}, valid_session
+        post :create, {machine_config: {'name' => 'invalid value'}}, valid_session
         assigns(:machine_config).should be_a_new(MachineConfig)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         MachineConfig.any_instance.stub(:save).and_return(false)
-        post :create, {:machine_config => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        post :create, {machine_config: {'name' => 'invalid value'}}, valid_session
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested machine_config" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested machine_config' do
         machine_config = MachineConfig.create! valid_attributes
         # Assuming there are no other machine_configs in the database, this
         # specifies that the MachineConfig created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        MachineConfig.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => machine_config.to_param, :machine_config => { "name" => "MyString" }}, valid_session
+        MachineConfig.any_instance.should_receive(:update).with({ 'name' => 'MyString'})
+        put :update, {id: machine_config.to_param, machine_config: {'name' => 'MyString'}}, valid_session
       end
 
-      it "assigns the requested machine_config as @machine_config" do
+      it 'assigns the requested machine_config as @machine_config' do
         machine_config = MachineConfig.create! valid_attributes
-        put :update, {:id => machine_config.to_param, :machine_config => valid_attributes}, valid_session
+        put :update, {id: machine_config.to_param, machine_config: valid_attributes}, valid_session
         assigns(:machine_config).should eq(machine_config)
       end
 
-      it "redirects to the machine_config" do
+      it 'redirects to the machine_config' do
         machine_config = MachineConfig.create! valid_attributes
-        put :update, {:id => machine_config.to_param, :machine_config => valid_attributes}, valid_session
+        put :update, {id: machine_config.to_param, machine_config: valid_attributes}, valid_session
         response.should redirect_to(machine_config)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the machine_config as @machine_config" do
+    describe 'with invalid params' do
+      it 'assigns the machine_config as @machine_config' do
         machine_config = MachineConfig.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         MachineConfig.any_instance.stub(:save).and_return(false)
-        put :update, {:id => machine_config.to_param, :machine_config => { "name" => "invalid value" }}, valid_session
+        put :update, {id: machine_config.to_param, machine_config: {'name' => 'invalid value'}}, valid_session
         assigns(:machine_config).should eq(machine_config)
       end
 
@@ -141,23 +141,23 @@ describe MachineConfigsController do
         machine_config = MachineConfig.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         MachineConfig.any_instance.stub(:save).and_return(false)
-        put :update, {:id => machine_config.to_param, :machine_config => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        put :update, {id: machine_config.to_param, machine_config: {'name' => 'invalid value'}}, valid_session
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested machine_config" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested machine_config' do
       machine_config = MachineConfig.create! valid_attributes
       expect {
-        delete :destroy, {:id => machine_config.to_param}, valid_session
+        delete :destroy, {id: machine_config.to_param}, valid_session
       }.to change(MachineConfig, :count).by(-1)
     end
 
-    it "redirects to the machine_configs list" do
+    it 'redirects to the machine_configs list' do
       machine_config = MachineConfig.create! valid_attributes
-      delete :destroy, {:id => machine_config.to_param}, valid_session
+      delete :destroy, {id: machine_config.to_param}, valid_session
       response.should redirect_to(machine_configs_url)
     end
   end

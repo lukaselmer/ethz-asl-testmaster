@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe "TestRunLogs" do
+describe 'TestRunLogs' do
 
   before :each do
     @user = FactoryGirl.create(:user)
     sign_in @user
   end
 
-  describe "GET /test_run_logs" do
-    it "works! (now write some real specs)" do
+  describe 'GET /test_run_logs' do
+    it 'works! (now write some real specs)' do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       get test_run_logs_path
       response.status.should be(200)

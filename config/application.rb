@@ -4,6 +4,7 @@ require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
+#noinspection RubyArgCount
 Bundler.require(:default, Rails.env)
 
 module EthzAslTestmaster
@@ -11,11 +12,11 @@ module EthzAslTestmaster
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
-      
+
       g.test_framework :rspec, fixture: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
-      
-      
+
+
       g.view_specs false
       g.helper_specs false
     end
@@ -27,7 +28,7 @@ module EthzAslTestmaster
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/app/services #{config.root}/app/inputs)
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.

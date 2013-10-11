@@ -1,9 +1,9 @@
 class DeploymentService::SSHHelper
-  def initialize ssh
+  def initialize(ssh)
     @ssh = ssh
   end
 
-  def delete file
+  def delete(file)
     @ssh.exec!("rm #{file}")
     check_deleted file
   end

@@ -28,112 +28,112 @@ describe ScenariosController do
   # This should return the minimal set of attributes required to create a valid
   # Scenario. As you add validations to Scenario, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { { 'name' => 'MyString'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ScenariosController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all scenarios as @scenarios" do
+  describe 'GET index' do
+    it 'assigns all scenarios as @scenarios' do
       scenario = Scenario.create! valid_attributes
       get :index, {}, valid_session
       assigns(:scenarios).should eq([scenario])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested scenario as @scenario" do
+  describe 'GET show' do
+    it 'assigns the requested scenario as @scenario' do
       scenario = Scenario.create! valid_attributes
-      get :show, {:id => scenario.to_param}, valid_session
+      get :show, {id: scenario.to_param}, valid_session
       assigns(:scenario).should eq(scenario)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new scenario as @scenario" do
+  describe 'GET new' do
+    it 'assigns a new scenario as @scenario' do
       get :new, {}, valid_session
       assigns(:scenario).should be_a_new(Scenario)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested scenario as @scenario" do
+  describe 'GET edit' do
+    it 'assigns the requested scenario as @scenario' do
       scenario = Scenario.create! valid_attributes
-      get :edit, {:id => scenario.to_param}, valid_session
+      get :edit, {id: scenario.to_param}, valid_session
       assigns(:scenario).should eq(scenario)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Scenario" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Scenario' do
         expect {
-          post :create, {:scenario => valid_attributes}, valid_session
+          post :create, {scenario: valid_attributes}, valid_session
         }.to change(Scenario, :count).by(1)
       end
 
-      it "assigns a newly created scenario as @scenario" do
-        post :create, {:scenario => valid_attributes}, valid_session
+      it 'assigns a newly created scenario as @scenario' do
+        post :create, {scenario: valid_attributes}, valid_session
         assigns(:scenario).should be_a(Scenario)
         assigns(:scenario).should be_persisted
       end
 
-      it "redirects to the created scenario" do
-        post :create, {:scenario => valid_attributes}, valid_session
+      it 'redirects to the created scenario' do
+        post :create, {scenario: valid_attributes}, valid_session
         response.should redirect_to(scenarios_url)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved scenario as @scenario" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved scenario as @scenario' do
         # Trigger the behavior that occurs when invalid params are submitted
         Scenario.any_instance.stub(:save).and_return(false)
-        post :create, {:scenario => { "name" => "invalid value" }}, valid_session
+        post :create, {scenario: {'name' => 'invalid value'}}, valid_session
         assigns(:scenario).should be_a_new(Scenario)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Scenario.any_instance.stub(:save).and_return(false)
-        post :create, {:scenario => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        post :create, {scenario: {'name' => 'invalid value'}}, valid_session
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested scenario" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested scenario' do
         scenario = Scenario.create! valid_attributes
         # Assuming there are no other scenarios in the database, this
         # specifies that the Scenario created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Scenario.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => scenario.to_param, :scenario => { "name" => "MyString" }}, valid_session
+        Scenario.any_instance.should_receive(:update).with({ 'name' => 'MyString'})
+        put :update, {id: scenario.to_param, scenario: {'name' => 'MyString'}}, valid_session
       end
 
-      it "assigns the requested scenario as @scenario" do
+      it 'assigns the requested scenario as @scenario' do
         scenario = Scenario.create! valid_attributes
-        put :update, {:id => scenario.to_param, :scenario => valid_attributes}, valid_session
+        put :update, {id: scenario.to_param, scenario: valid_attributes}, valid_session
         assigns(:scenario).should eq(scenario)
       end
 
-      it "redirects to the scenario" do
+      it 'redirects to the scenario' do
         scenario = Scenario.create! valid_attributes
-        put :update, {:id => scenario.to_param, :scenario => valid_attributes}, valid_session
+        put :update, {id: scenario.to_param, scenario: valid_attributes}, valid_session
         response.should redirect_to(scenarios_url)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the scenario as @scenario" do
+    describe 'with invalid params' do
+      it 'assigns the scenario as @scenario' do
         scenario = Scenario.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Scenario.any_instance.stub(:save).and_return(false)
-        put :update, {:id => scenario.to_param, :scenario => { "name" => "invalid value" }}, valid_session
+        put :update, {id: scenario.to_param, scenario: {'name' => 'invalid value'}}, valid_session
         assigns(:scenario).should eq(scenario)
       end
 
@@ -141,23 +141,23 @@ describe ScenariosController do
         scenario = Scenario.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Scenario.any_instance.stub(:save).and_return(false)
-        put :update, {:id => scenario.to_param, :scenario => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        put :update, {id: scenario.to_param, scenario: {'name' => 'invalid value'}}, valid_session
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested scenario" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested scenario' do
       scenario = Scenario.create! valid_attributes
       expect {
-        delete :destroy, {:id => scenario.to_param}, valid_session
+        delete :destroy, {id: scenario.to_param}, valid_session
       }.to change(Scenario, :count).by(-1)
     end
 
-    it "redirects to the scenarios list" do
+    it 'redirects to the scenarios list' do
       scenario = Scenario.create! valid_attributes
-      delete :destroy, {:id => scenario.to_param}, valid_session
+      delete :destroy, {id: scenario.to_param}, valid_session
       response.should redirect_to(scenarios_url)
     end
   end

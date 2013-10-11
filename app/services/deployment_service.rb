@@ -2,7 +2,7 @@ require 'net/ssh'
 
 class DeploymentService
 
-  def initialize test_run, machine
+  def initialize(test_run, machine)
     @test_run = test_run
     @machine = machine
   end
@@ -16,7 +16,7 @@ class DeploymentService
 
       begin
         helper = DeploymentService::SSHHelper.new(ssh)
-        output = ssh.exec!("whoami")
+        output = ssh.exec!('whoami')
         raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == 'ubuntu'
 
         testdir = "/home/ubuntu/messaging_system/tests/#{@test_run.id}"

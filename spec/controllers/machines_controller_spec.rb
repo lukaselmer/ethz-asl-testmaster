@@ -28,112 +28,112 @@ describe MachinesController do
   # This should return the minimal set of attributes required to create a valid
   # Machine. As you add validations to Machine, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "host" => "MyString" } }
+  let(:valid_attributes) { { 'host' => 'MyString'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # MachinesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all machines as @machines" do
+  describe 'GET index' do
+    it 'assigns all machines as @machines' do
       machine = Machine.create! valid_attributes
       get :index, {}, valid_session
       assigns(:machines).should eq([machine])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested machine as @machine" do
+  describe 'GET show' do
+    it 'assigns the requested machine as @machine' do
       machine = Machine.create! valid_attributes
-      get :show, {:id => machine.to_param}, valid_session
+      get :show, {id: machine.to_param}, valid_session
       assigns(:machine).should eq(machine)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new machine as @machine" do
+  describe 'GET new' do
+    it 'assigns a new machine as @machine' do
       get :new, {}, valid_session
       assigns(:machine).should be_a_new(Machine)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested machine as @machine" do
+  describe 'GET edit' do
+    it 'assigns the requested machine as @machine' do
       machine = Machine.create! valid_attributes
-      get :edit, {:id => machine.to_param}, valid_session
+      get :edit, {id: machine.to_param}, valid_session
       assigns(:machine).should eq(machine)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Machine" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Machine' do
         expect {
-          post :create, {:machine => valid_attributes}, valid_session
+          post :create, {machine: valid_attributes}, valid_session
         }.to change(Machine, :count).by(1)
       end
 
-      it "assigns a newly created machine as @machine" do
-        post :create, {:machine => valid_attributes}, valid_session
+      it 'assigns a newly created machine as @machine' do
+        post :create, {machine: valid_attributes}, valid_session
         assigns(:machine).should be_a(Machine)
         assigns(:machine).should be_persisted
       end
 
-      it "redirects to the created machine" do
-        post :create, {:machine => valid_attributes}, valid_session
+      it 'redirects to the created machine' do
+        post :create, {machine: valid_attributes}, valid_session
         response.should redirect_to(Machine.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved machine as @machine" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved machine as @machine' do
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        post :create, {:machine => { "host" => "invalid value" }}, valid_session
+        post :create, {machine: {'host' => 'invalid value'}}, valid_session
         assigns(:machine).should be_a_new(Machine)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        post :create, {:machine => { "host" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        post :create, {machine: {'host' => 'invalid value'}}, valid_session
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested machine" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested machine' do
         machine = Machine.create! valid_attributes
         # Assuming there are no other machines in the database, this
         # specifies that the Machine created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Machine.any_instance.should_receive(:update).with({ "host" => "MyString" })
-        put :update, {:id => machine.to_param, :machine => { "host" => "MyString" }}, valid_session
+        Machine.any_instance.should_receive(:update).with({ 'host' => 'MyString'})
+        put :update, {id: machine.to_param, machine: {'host' => 'MyString'}}, valid_session
       end
 
-      it "assigns the requested machine as @machine" do
+      it 'assigns the requested machine as @machine' do
         machine = Machine.create! valid_attributes
-        put :update, {:id => machine.to_param, :machine => valid_attributes}, valid_session
+        put :update, {id: machine.to_param, machine: valid_attributes}, valid_session
         assigns(:machine).should eq(machine)
       end
 
-      it "redirects to the machine" do
+      it 'redirects to the machine' do
         machine = Machine.create! valid_attributes
-        put :update, {:id => machine.to_param, :machine => valid_attributes}, valid_session
+        put :update, {id: machine.to_param, machine: valid_attributes}, valid_session
         response.should redirect_to(machine)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the machine as @machine" do
+    describe 'with invalid params' do
+      it 'assigns the machine as @machine' do
         machine = Machine.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        put :update, {:id => machine.to_param, :machine => { "host" => "invalid value" }}, valid_session
+        put :update, {id: machine.to_param, machine: {'host' => 'invalid value'}}, valid_session
         assigns(:machine).should eq(machine)
       end
 
@@ -141,23 +141,23 @@ describe MachinesController do
         machine = Machine.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        put :update, {:id => machine.to_param, :machine => { "host" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        put :update, {id: machine.to_param, machine: {'host' => 'invalid value'}}, valid_session
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested machine" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested machine' do
       machine = Machine.create! valid_attributes
       expect {
-        delete :destroy, {:id => machine.to_param}, valid_session
+        delete :destroy, {id: machine.to_param}, valid_session
       }.to change(Machine, :count).by(-1)
     end
 
-    it "redirects to the machines list" do
+    it 'redirects to the machines list' do
       machine = Machine.create! valid_attributes
-      delete :destroy, {:id => machine.to_param}, valid_session
+      delete :destroy, {id: machine.to_param}, valid_session
       response.should redirect_to(machines_url)
     end
   end

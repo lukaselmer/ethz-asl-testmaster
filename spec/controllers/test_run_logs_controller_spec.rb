@@ -28,112 +28,112 @@ describe TestRunLogsController do
   # This should return the minimal set of attributes required to create a valid
   # TestRunLog. As you add validations to TestRunLog, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "logged_at" => "2013-10-05 01:30:48" } }
+  let(:valid_attributes) { { 'logged_at' => '2013-10-05 01:30:48'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # TestRunLogsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all test_run_logs as @test_run_logs" do
+  describe 'GET index' do
+    it 'assigns all test_run_logs as @test_run_logs' do
       test_run_log = TestRunLog.create! valid_attributes
       get :index, {}, valid_session
       assigns(:test_run_logs).should eq([test_run_log])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested test_run_log as @test_run_log" do
+  describe 'GET show' do
+    it 'assigns the requested test_run_log as @test_run_log' do
       test_run_log = TestRunLog.create! valid_attributes
-      get :show, {:id => test_run_log.to_param}, valid_session
+      get :show, {id: test_run_log.to_param}, valid_session
       assigns(:test_run_log).should eq(test_run_log)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new test_run_log as @test_run_log" do
+  describe 'GET new' do
+    it 'assigns a new test_run_log as @test_run_log' do
       get :new, {}, valid_session
       assigns(:test_run_log).should be_a_new(TestRunLog)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested test_run_log as @test_run_log" do
+  describe 'GET edit' do
+    it 'assigns the requested test_run_log as @test_run_log' do
       test_run_log = TestRunLog.create! valid_attributes
-      get :edit, {:id => test_run_log.to_param}, valid_session
+      get :edit, {id: test_run_log.to_param}, valid_session
       assigns(:test_run_log).should eq(test_run_log)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new TestRunLog" do
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new TestRunLog' do
         expect {
-          post :create, {:test_run_log => valid_attributes}, valid_session
+          post :create, {test_run_log: valid_attributes}, valid_session
         }.to change(TestRunLog, :count).by(1)
       end
 
-      it "assigns a newly created test_run_log as @test_run_log" do
-        post :create, {:test_run_log => valid_attributes}, valid_session
+      it 'assigns a newly created test_run_log as @test_run_log' do
+        post :create, {test_run_log: valid_attributes}, valid_session
         assigns(:test_run_log).should be_a(TestRunLog)
         assigns(:test_run_log).should be_persisted
       end
 
-      it "redirects to the created test_run_log" do
-        post :create, {:test_run_log => valid_attributes}, valid_session
+      it 'redirects to the created test_run_log' do
+        post :create, {test_run_log: valid_attributes}, valid_session
         response.should redirect_to(TestRunLog.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved test_run_log as @test_run_log" do
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved test_run_log as @test_run_log' do
         # Trigger the behavior that occurs when invalid params are submitted
         TestRunLog.any_instance.stub(:save).and_return(false)
-        post :create, {:test_run_log => { "logged_at" => "invalid value" }}, valid_session
+        post :create, {test_run_log: {'logged_at' => 'invalid value'}}, valid_session
         assigns(:test_run_log).should be_a_new(TestRunLog)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         TestRunLog.any_instance.stub(:save).and_return(false)
-        post :create, {:test_run_log => { "logged_at" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        post :create, {test_run_log: {'logged_at' => 'invalid value'}}, valid_session
+        response.should render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested test_run_log" do
+  describe 'PUT update' do
+    describe 'with valid params' do
+      it 'updates the requested test_run_log' do
         test_run_log = TestRunLog.create! valid_attributes
         # Assuming there are no other test_run_logs in the database, this
         # specifies that the TestRunLog created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        TestRunLog.any_instance.should_receive(:update).with({ "logged_at" => "2013-10-05 01:30:48" })
-        put :update, {:id => test_run_log.to_param, :test_run_log => { "logged_at" => "2013-10-05 01:30:48" }}, valid_session
+        TestRunLog.any_instance.should_receive(:update).with({ 'logged_at' => '2013-10-05 01:30:48'})
+        put :update, {id: test_run_log.to_param, test_run_log: {'logged_at' => '2013-10-05 01:30:48'}}, valid_session
       end
 
-      it "assigns the requested test_run_log as @test_run_log" do
+      it 'assigns the requested test_run_log as @test_run_log' do
         test_run_log = TestRunLog.create! valid_attributes
-        put :update, {:id => test_run_log.to_param, :test_run_log => valid_attributes}, valid_session
+        put :update, {id: test_run_log.to_param, test_run_log: valid_attributes}, valid_session
         assigns(:test_run_log).should eq(test_run_log)
       end
 
-      it "redirects to the test_run_log" do
+      it 'redirects to the test_run_log' do
         test_run_log = TestRunLog.create! valid_attributes
-        put :update, {:id => test_run_log.to_param, :test_run_log => valid_attributes}, valid_session
+        put :update, {id: test_run_log.to_param, test_run_log: valid_attributes}, valid_session
         response.should redirect_to(test_run_log)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the test_run_log as @test_run_log" do
+    describe 'with invalid params' do
+      it 'assigns the test_run_log as @test_run_log' do
         test_run_log = TestRunLog.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         TestRunLog.any_instance.stub(:save).and_return(false)
-        put :update, {:id => test_run_log.to_param, :test_run_log => { "logged_at" => "invalid value" }}, valid_session
+        put :update, {id: test_run_log.to_param, test_run_log: {'logged_at' => 'invalid value'}}, valid_session
         assigns(:test_run_log).should eq(test_run_log)
       end
 
@@ -141,23 +141,23 @@ describe TestRunLogsController do
         test_run_log = TestRunLog.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         TestRunLog.any_instance.stub(:save).and_return(false)
-        put :update, {:id => test_run_log.to_param, :test_run_log => { "logged_at" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        put :update, {id: test_run_log.to_param, test_run_log: {'logged_at' => 'invalid value'}}, valid_session
+        response.should render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested test_run_log" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested test_run_log' do
       test_run_log = TestRunLog.create! valid_attributes
       expect {
-        delete :destroy, {:id => test_run_log.to_param}, valid_session
+        delete :destroy, {id: test_run_log.to_param}, valid_session
       }.to change(TestRunLog, :count).by(-1)
     end
 
-    it "redirects to the test_run_logs list" do
+    it 'redirects to the test_run_logs list' do
       test_run_log = TestRunLog.create! valid_attributes
-      delete :destroy, {:id => test_run_log.to_param}, valid_session
+      delete :destroy, {id: test_run_log.to_param}, valid_session
       response.should redirect_to(test_run_logs_url)
     end
   end

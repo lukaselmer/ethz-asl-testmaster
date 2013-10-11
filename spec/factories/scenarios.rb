@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :scenario do
-    name "MyString"
+    name 'MyString'
     execution_multiplicity 1
-    config_template "MyText"
+    config_template 'MyText'
     test_run nil
   end
 end

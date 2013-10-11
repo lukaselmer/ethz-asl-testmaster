@@ -2,10 +2,10 @@
 
 FactoryGirl.define do
   factory :machine do
-    host "MyString"
-    profile "MyString"
-    state "MyString"
-    private_key "MyText"
-    additional_info "MyText"
+    host 'MyString'
+    profile 'MyString'
+    state 'MyString'
+    private_key 'MyText'
+    additional_info 'MyText'
   end
 end
