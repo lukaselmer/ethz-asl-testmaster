@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20131011223833) do
     t.datetime 'updated_at'
   end
 
-  add_index 'scenarios', ['test_run_id'], name: 'index_scenarios_on_test_run_id', using: :btree
+  add_index 'scenarios', %w(test_run_id), name: 'index_scenarios_on_test_run_id', using: :btree
 
   create_table 'test_run_logs', force: true do |t|
     t.datetime 'logged_at'
@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20131011223833) do
     t.datetime 'updated_at'
   end
 
-  add_index 'test_run_logs', ['test_machine_config_id'], name: 'index_test_run_logs_on_test_machine_config_id', using: :btree
-  add_index 'test_run_logs', ['test_run_id'], name: 'index_test_run_logs_on_test_run_id', using: :btree
+  add_index 'test_run_logs', %w(test_machine_config_id), name: 'index_test_run_logs_on_test_machine_config_id', using: :btree
+  add_index 'test_run_logs', %w(test_run_id), name: 'index_test_run_logs_on_test_run_id', using: :btree
 
   create_table 'test_runs', force: true do |t|
     t.string 'name'
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20131011223833) do
     t.string 'name'
   end
 
-  add_index 'users', ['email'], name: 'index_users_on_email', unique: true, using: :btree
-  add_index 'users', ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true, using: :btree
+  add_index 'users', %w(email), name: 'index_users_on_email', unique: true, using: :btree
+  add_index 'users', %w(reset_password_token), name: 'index_users_on_reset_password_token', unique: true, using: :btree
 
 end

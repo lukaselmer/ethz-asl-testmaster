@@ -34,12 +34,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    unless @user == current_user
-      @user.destroy
-      redirect_to users_path, notice: 'User deleted.'
-    else
-      redirect_to users_path, notice: 'Can\'t delete yourself.'
-    end
+    redirect_to users_path, notice: 'Can\'t delete yourself.' and return if @user == current_user
+
+    @user.destroy
+    redirect_to users_path, notice: 'User deleted.'
   end
 
   private
