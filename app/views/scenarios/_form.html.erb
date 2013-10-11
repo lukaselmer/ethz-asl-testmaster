@@ -1,0 +1,14 @@
+<%= simple_form_for(@scenario) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :config_template %>
+    <%= f.input :execution_multiplicity if @scenario.test_run %>
+    <%= f.association :test_run, input_html: {disabled: true} if @scenario.test_run %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,9 +1,13 @@
-<h1>Listing test_runs</h1>
+<h1>Test Runs</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>State</th>
+      <th>Name</th>
+      <th>Started at</th>
+      <th>Ended at</th>
+      <th>Config</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,6 +18,10 @@
     <% @test_runs.each do |test_run| %>
       <tr>
         <td><%= test_run.state %></td>
+        <td><%= test_run.name %></td>
+        <td><%= test_run.started_at %></td>
+        <td><%= test_run.ended_at %></td>
+        <td><%= test_run.config %></td>
         <td><%= link_to 'Show', test_run %></td>
         <td><%= link_to 'Edit', edit_test_run_path(test_run) %></td>
         <td><%= link_to 'Destroy', test_run, method: :delete, data: { confirm: 'Are you sure?' } %></td>

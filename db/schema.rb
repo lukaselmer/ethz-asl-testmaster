@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011125548) do
+ActiveRecord::Schema.define(version: 20131011143306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20131011125548) do
     t.datetime "updated_at"
   end
 
+  create_table "scenarios", force: true do |t|
+    t.string   "name"
+    t.integer  "execution_multiplicity"
+    t.text     "config_template"
+    t.integer  "test_run_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scenarios", ["test_run_id"], name: "index_scenarios_on_test_run_id", using: :btree
+
   create_table "test_run_logs", force: true do |t|
     t.datetime "logged_at"
     t.string   "message_type"
@@ -48,9 +59,10 @@ ActiveRecord::Schema.define(version: 20131011125548) do
   add_index "test_run_logs", ["test_run_id"], name: "index_test_run_logs_on_test_run_id", using: :btree
 
   create_table "test_runs", force: true do |t|
-    t.string   "state"
+    t.string   "name"
     t.datetime "started_at"
     t.datetime "ended_at"
+    t.text     "config"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

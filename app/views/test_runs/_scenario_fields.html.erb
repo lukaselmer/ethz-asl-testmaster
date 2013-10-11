@@ -1,0 +1,7 @@
+<div class="nested-fields">
+  <%= f.input :name %>
+  <%= f.input :execution_multiplicity %>
+  <%= f.input :config_template %>
+  <%= link_to_remove_association 'Remove scenario', f,
+                                 class: 'btn btn-danger btn-sm' if f.object.new_record? || f.object.test_run.try(:state) == :not_started %>
+</div>

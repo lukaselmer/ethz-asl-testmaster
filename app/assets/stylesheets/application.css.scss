@@ -8,18 +8,27 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
  *= require_tree .
+ *= require_self
 */
 
+body {
+  background: #e6f0f9;
+  padding-top: 40px;
+}
+
 .content {
-  background-color: #eee;
+  background-color: #fff;
   padding: 20px;
   margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
   border-radius: 0 0 6px 6px;
-  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+}
+
+.nested-fields {
+  margin: 0 0 30px 0;
+  background: #F5F5F5;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  padding: 15px;
 }

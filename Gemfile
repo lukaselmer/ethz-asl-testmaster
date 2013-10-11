@@ -16,6 +16,8 @@ gem 'net-scp'
 gem 'pg'
 gem 'simple_form', '>= 3.0.0.rc'
 gem 'aws-sdk', '~> 1.0'
+gem 'cocoon'
+gem 'show_for'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', platforms: [:mri_19, :mri_20, :rbx]

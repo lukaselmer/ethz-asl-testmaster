@@ -14,7 +14,8 @@ class TestRunsController < ApplicationController
 
   # GET /test_runs/new
   def new
-    @test_run = TestRun.new
+    redirect_to scenarios_path, alert: 'Create some scenarios first' and return if Scenario.default_scenarios.empty?
+    @test_run = TestRun.new_with_default_scenarios
   end
 
   # GET /test_runs/1/edit
@@ -25,6 +26,7 @@ class TestRunsController < ApplicationController
   # POST /test_runs.json
   def create
     @test_run = TestRun.new(test_run_params)
+    @test_run.scenarios.map! { |s| s.test_run = @test_run; s }
 
     if @test_run.save
       redirect_to @test_run, notice: 'Test run was successfully created.'
@@ -58,7 +60,7 @@ class TestRunsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def test_run_params
-    params.require(:test_run).permit(:state)
+    params.require(:test_run).permit(:name, :config, scenarios_attributes: [:id, :name, :execution_multiplicity, :config_template, :_destroy])
   end
 
 end

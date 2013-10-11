@@ -1,4 +1,6 @@
 EthzAslTestmaster::Application.routes.draw do
+  resources :scenarios
+
   resources :machine_configs
   resources :machines
   resources :test_run_logs

@@ -1,0 +1,29 @@
+<h1>Default Scenarios</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Config template</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scenarios.each do |scenario| %>
+      <tr>
+        <td><%= scenario.name %></td>
+        <td><%= scenario.config_template %></td>
+        <td><%= link_to 'Show', scenario %></td>
+        <td><%= link_to 'Edit', edit_scenario_path(scenario) %></td>
+        <td><%= link_to 'Destroy', scenario, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Scenario', new_scenario_path %>

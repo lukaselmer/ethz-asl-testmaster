@@ -1,9 +1,30 @@
-<p id="notice"><%= notice %></p>
+<%= show_for @test_run do |t| %>
+  <%= t.attributes :name, :state %>
 
-<p>
-  <strong>State:</strong>
-  <%= @test_run.state %>
-</p>
+  <%= t.association :scenarios do %>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Execution multiplicity</th>
+        <th>Config template</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @test_run.scenarios.each do |scenario| %>
+        <tr>
+          <td><%= scenario.name %></td>
+          <td><%= scenario.execution_multiplicity %></td>
+          <td><%= scenario.config_template %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
+
 
 <%= link_to 'Edit', edit_test_run_path(@test_run) %> |
 <%= link_to 'Back', test_runs_path %>

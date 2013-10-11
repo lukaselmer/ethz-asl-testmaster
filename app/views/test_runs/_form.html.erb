@@ -2,7 +2,22 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :state %>
+    <%= f.input :name %>
+    <%= f.input :config %>
+  </div>
+
+  <h3>Scenarios</h3>
+  <div id="scenarios" class="test-run-scenarios">
+
+    <%= f.simple_fields_for :scenarios do |s| %>
+
+      <%= render 'scenario_fields', f: s %>
+
+    <% end %>
+
+    <div class="links">
+      <%= link_to_add_association 'Add custom scenario', f, :scenarios, class: 'btn btn-primary' %>
+    </div>
   </div>
 
   <div class="form-actions">
