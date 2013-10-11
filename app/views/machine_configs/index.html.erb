@@ -1,0 +1,29 @@
+<h1>Listing machine_configs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Template</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @machine_configs.each do |machine_config| %>
+      <tr>
+        <td><%= machine_config.name %></td>
+        <td><%= machine_config.template %></td>
+        <td><%= link_to 'Show', machine_config %></td>
+        <td><%= link_to 'Edit', edit_machine_config_path(machine_config) %></td>
+        <td><%= link_to 'Destroy', machine_config, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Machine config', new_machine_config_path %>

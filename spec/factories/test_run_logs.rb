@@ -7,6 +7,5 @@ FactoryGirl.define do
     message_content "MyText"
     execution_in_microseconds 1
     test_run nil
-    test_machine_config nil
   end
 end

@@ -8,7 +8,6 @@
       <th>Message content</th>
       <th>Execution in microseconds</th>
       <th>Test run</th>
-      <th>Test machine config</th>
       <th></th>
       <th></th>
       <th></th>
@@ -23,7 +22,6 @@
         <td><%= test_run_log.message_content %></td>
         <td><%= test_run_log.execution_in_microseconds %></td>
         <td><%= test_run_log.test_run %></td>
-        <td><%= test_run_log.test_machine_config %></td>
         <td><%= link_to 'Show', test_run_log %></td>
         <td><%= link_to 'Edit', edit_test_run_log_path(test_run_log) %></td>
         <td><%= link_to 'Destroy', test_run_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>

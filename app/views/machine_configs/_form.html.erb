@@ -1,10 +1,9 @@
-<%= simple_form_for(@test_machine_config) do |f| %>
+<%= simple_form_for(@machine_config) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :command_line_arguments %>
-    <%= f.association :test_run %>
+    <%= f.input :template %>
   </div>
 
   <div class="form-actions">

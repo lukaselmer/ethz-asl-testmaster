@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @machine_config.name %>
+</p>
+
+<p>
+  <strong>Template:</strong>
+  <%= @machine_config.template %>
+</p>
+
+<%= link_to 'Edit', edit_machine_config_path(@machine_config) %> |
+<%= link_to 'Back', machine_configs_path %>
