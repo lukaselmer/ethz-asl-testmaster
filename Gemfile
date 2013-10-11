@@ -20,6 +20,7 @@ gem 'cocoon'
 gem 'show_for'
 group :development do
   gem 'better_errors'
+  #noinspection RailsParamDefResolve
   gem 'binding_of_caller', platforms: [:mri_19, :mri_20, :rbx]
   gem 'meta_request'
   gem 'coffee-rails-source-maps'
