@@ -4,8 +4,11 @@ rvm:
 script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
-  - bundle exec rake spec
+  - CODECLIMATE_REPO_TOKEN=a2eb7fbe2c195fad5f2cf575e5e84b73f45eb5b7700cf169a8e2e8e054ab755e bundle exec rake spec
 before_script:
   - cp config/database.travis.yml config/database.yml
   - mysql -e 'create database testmaster_test'
   - psql -c 'create database testmaster_test' -U postgres
+addons:
+    code_climate:
+        repo_token: a2eb7fbe2c195fad5f2cf575e5e84b73f45eb5b7700cf169a8e2e8e054ab755e
