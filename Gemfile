@@ -26,7 +26,7 @@ group :development do
   gem 'coffee-rails-source-maps'
   gem 'guard-bundler'
   gem 'guard-rails'
-  gem 'guard-rspec'
+  gem 'guard-rspec', require: false, github: 'guard/guard-rspec'
   gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
