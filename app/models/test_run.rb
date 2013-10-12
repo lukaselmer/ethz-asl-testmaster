@@ -16,10 +16,18 @@ class TestRun < ActiveRecord::Base
     test_run
   end
 
+  def started?
+    !started_at.nil?
+  end
+
+  def ended?
+    !ended_at.nil?
+  end
+
   def state
-    return :not_started if started_at.nil?
-    return :running if ended_at.nil?
-    :finished
+    return :ended if ended?
+    return :running if started?
+    :not_started
   end
 
   def start

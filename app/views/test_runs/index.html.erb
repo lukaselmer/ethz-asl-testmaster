@@ -11,6 +11,7 @@
       <th></th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -22,6 +23,10 @@
         <td><%= test_run.started_at %></td>
         <td><%= test_run.ended_at %></td>
         <td><%= test_run.config %></td>
+        <th>
+          <%= link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} %>
+          <%= link_to 'Stop', [:stop, test_run], class: 'btn btn-mini btn-warning', data: {confirm: 'Are you sure?'} %>
+        </th>
         <td><%= link_to 'Show', test_run %></td>
         <td><%= link_to 'Edit', edit_test_run_path(test_run) %></td>
         <td><%= link_to 'Destroy', test_run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
