@@ -1,5 +1,9 @@
 h1. Ethz Asl Testmaster
 
+!https://travis-ci.org/lukaselmer/ethz-asl-testmaster.png?branch=master!:https://travis-ci.org/lukaselmer/ethz-asl-testmaster
+"!https://codeclimate.com/repos/5257ec0bc7f3a363d0020434/badges/23aea93723435f455d9c/gpa.png!":https://codeclimate.com/repos/5257ec0bc7f3a363d0020434/feed
+!https://gemnasium.com/lukaselmer/ethz-asl-testmaster.png(Dependency Status)!:https://gemnasium.com/lukaselmer/ethz-asl-testmaster
+
 This application was generated with the "rails_apps_composer":https://github.com/RailsApps/rails_apps_composer gem provided by the "RailsApps Project":http://railsapps.github.io/.
 
 h2. Diagnostics
