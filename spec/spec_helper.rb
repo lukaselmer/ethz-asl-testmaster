@@ -6,6 +6,11 @@ if ENV['CODECLIMATE_REPO_TOKEN']
   CodeClimate::TestReporter.start
 end
 
+unless ENV['DISABLE_COVERALLS']
+  require 'coveralls'
+  Coveralls.wear!
+end
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'email_spec'
