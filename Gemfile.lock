@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/aws/aws-sdk-ruby.git
+  revision: 084f603f20aabcea33e98a176361ebd3b18fe7b8
+  specs:
+    aws-sdk (1.21.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4, < 1.6.0)
+      uuidtools (~> 2.1)
+
+GIT
   remote: git://github.com/plataformatec/show_for.git
   revision: 7f2dc583ee84e9fd86d00c70c5e63027b20a8efc
   specs:
@@ -36,10 +45,6 @@ GEM
     addressable (2.3.5)
     arel (4.0.0)
     atomic (1.1.14)
-    aws-sdk (1.11.1)
-      json (~> 1.4)
-      nokogiri (>= 1.4.4)
-      uuidtools (~> 2.1)
     bcrypt-ruby (3.1.2)
     better_errors (1.0.1)
       coderay (>= 1.0.0)
@@ -71,7 +76,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    database_cleaner (1.0.1)
+    database_cleaner (1.2.0)
     debug_inspector (0.0.2)
     devise (3.1.1)
       bcrypt-ruby (~> 3.0)
@@ -132,14 +137,12 @@ GEM
       rack-contrib
       railties
     mime-types (1.25)
-    mini_portile (0.5.1)
     minitest (4.7.5)
     multi_json (1.8.1)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.5.10)
     orm_adapter (0.4.0)
     pg (0.17.0)
     polyglot (0.3.3)
@@ -235,7 +238,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aws-sdk (~> 1.0)
+  aws-sdk!
   better_errors
   binding_of_caller
   bootstrap-sass (~> 2.3.2.2)
@@ -244,7 +247,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails (~> 4.0.0)
   coffee-rails-source-maps
-  database_cleaner (= 1.0.1)
+  database_cleaner
   devise
   email_spec
   factory_girl_rails
