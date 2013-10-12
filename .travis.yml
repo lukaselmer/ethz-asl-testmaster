@@ -7,6 +7,7 @@ script:
   - CODECLIMATE_REPO_TOKEN=a2eb7fbe2c195fad5f2cf575e5e84b73f45eb5b7700cf169a8e2e8e054ab755e bundle exec rake spec
 before_script:
   - cp config/database.travis.yml config/database.yml
+  - cp config/application.example.yml config/application.yml
   - mysql -e 'create database testmaster_test'
   - psql -c 'create database testmaster_test' -U postgres
 addons:
