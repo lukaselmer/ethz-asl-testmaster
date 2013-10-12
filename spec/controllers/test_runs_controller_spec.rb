@@ -51,6 +51,24 @@ describe TestRunsController do
     end
   end
 
+  describe 'GET start' do
+    it 'assigns the requested test_run as @test_run' do
+      test_run = TestRun.create! valid_attributes
+      TestRun.any_instance.should_receive(:start)
+      get :start, {id: test_run.to_param}, valid_session
+      assigns(:test_run).should eq(test_run)
+    end
+  end
+
+  describe 'GET stop' do
+    it 'assigns the requested test_run as @test_run' do
+      test_run = TestRun.create! valid_attributes
+      TestRun.any_instance.should_receive(:stop)
+      get :stop, {id: test_run.to_param}, valid_session
+      assigns(:test_run).should eq(test_run)
+    end
+  end
+
   describe 'GET new' do
     it 'assigns a new test_run as @test_run' do
       Scenario.create!(name: 'test')

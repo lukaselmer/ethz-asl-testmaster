@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :edit, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :edit, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json
@@ -10,6 +10,16 @@ class TestRunsController < ApplicationController
   # GET /test_runs/1
   # GET /test_runs/1.json
   def show
+  end
+
+  def start
+    @test_run.start
+    render :show
+  end
+
+  def stop
+    @test_run.stop
+    render :show
   end
 
   # GET /test_runs/new

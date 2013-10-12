@@ -15,6 +15,14 @@ describe TestRunsController do
       get('/test_runs/1').should route_to('test_runs#show', :id => '1')
     end
 
+    it 'routes to #start' do
+      get('/test_runs/1/start').should route_to('test_runs#start', :id => '1')
+    end
+
+    it 'routes to #stop' do
+      get('/test_runs/1/stop').should route_to('test_runs#stop', :id => '1')
+    end
+
     it 'routes to #edit' do
       get('/test_runs/1/edit').should route_to('test_runs#edit', :id => '1')
     end

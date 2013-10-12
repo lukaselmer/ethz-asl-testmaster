@@ -21,4 +21,12 @@ class TestRun < ActiveRecord::Base
     return :running if ended_at.nil?
     :finished
   end
+
+  def start
+    # TODO
+  end
+
+  def stop
+    # TODO
+  end
 end
