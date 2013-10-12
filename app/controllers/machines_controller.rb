@@ -58,6 +58,6 @@ class MachinesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def machine_params
-    params.require(:machine).permit(:host, :profile, :state, :private_key, :additional_info)
+    params.require(:machine).permit(:ip_address)
   end
 end

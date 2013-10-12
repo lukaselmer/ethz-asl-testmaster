@@ -28,7 +28,7 @@ describe MachinesController do
   # This should return the minimal set of attributes required to create a valid
   # Machine. As you add validations to Machine, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { 'host' => 'MyString'} }
+  let(:valid_attributes) { { 'ip_address' => 'MyString'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -90,14 +90,14 @@ describe MachinesController do
       it 'assigns a newly created but unsaved machine as @machine' do
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        post :create, {machine: {'host' => 'invalid value'}}, valid_session
+        post :create, {machine: {'ip_address' => 'invalid value'}}, valid_session
         assigns(:machine).should be_a_new(Machine)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        post :create, {machine: {'host' => 'invalid value'}}, valid_session
+        post :create, {machine: {'ip_address' => 'invalid value'}}, valid_session
         response.should render_template('new')
       end
     end
@@ -111,8 +111,8 @@ describe MachinesController do
         # specifies that the Machine created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Machine.any_instance.should_receive(:update).with({ 'host' => 'MyString'})
-        put :update, {id: machine.to_param, machine: {'host' => 'MyString'}}, valid_session
+        Machine.any_instance.should_receive(:update).with({ 'ip_address' => 'MyString'})
+        put :update, {id: machine.to_param, machine: {'ip_address' => 'MyString'}}, valid_session
       end
 
       it 'assigns the requested machine as @machine' do
@@ -133,7 +133,7 @@ describe MachinesController do
         machine = Machine.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        put :update, {id: machine.to_param, machine: {'host' => 'invalid value'}}, valid_session
+        put :update, {id: machine.to_param, machine: {'ip_address' => 'invalid value'}}, valid_session
         assigns(:machine).should eq(machine)
       end
 
@@ -141,7 +141,7 @@ describe MachinesController do
         machine = Machine.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Machine.any_instance.stub(:save).and_return(false)
-        put :update, {id: machine.to_param, machine: {'host' => 'invalid value'}}, valid_session
+        put :update, {id: machine.to_param, machine: {'ip_address' => 'invalid value'}}, valid_session
         response.should render_template('edit')
       end
     end
