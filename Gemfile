@@ -15,9 +15,9 @@ gem 'net-ssh'
 gem 'net-scp'
 gem 'pg'
 gem 'simple_form', '>= 3.0.0.rc'
-gem 'aws-sdk', '~> 1.0'
+gem 'aws-sdk'
 gem 'cocoon'
-gem 'show_for'
+gem 'show_for', github: 'plataformatec/show_for'
 group :development do
   gem 'better_errors'
   #noinspection RailsParamDefResolve
