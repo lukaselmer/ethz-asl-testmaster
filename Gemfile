@@ -15,7 +15,7 @@ gem 'net-ssh'
 gem 'net-scp'
 gem 'pg'
 gem 'simple_form', '>= 3.0.0.rc'
-gem 'aws-sdk'
+gem 'aws-sdk', github: 'aws/aws-sdk-ruby'
 gem 'cocoon'
 gem 'show_for', github: 'plataformatec/show_for'
 group :development do
