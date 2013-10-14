@@ -39,7 +39,8 @@ group :development, :test do
   gem 'rspec-rails'
 end
 group :production do
-  gem 'unicorn'
+  #gem 'unicorn'
+  gem 'passenger'
 end
 group :test do
   gem 'capybara'
