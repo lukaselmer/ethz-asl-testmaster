@@ -5,9 +5,12 @@ h1. Ethz Asl Testmaster
 !https://gemnasium.com/lukaselmer/ethz-asl-testmaster.png(Dependency Status)!:https://gemnasium.com/lukaselmer/ethz-asl-testmaster
 !https://coveralls.io/repos/lukaselmer/ethz-asl-testmaster/badge.png(Coverage Status)!:https://coveralls.io/r/lukaselmer/ethz-asl-testmaster
 
-This application was generated with the "rails_apps_composer":https://github.com/RailsApps/rails_apps_composer gem provided by the "RailsApps Project":http://railsapps.github.io/.
+https://testmaster-asl-eth.renuo.ch
+
 
 h2. Diagnostics
+
+This application was generated with the "rails_apps_composer":https://github.com/RailsApps/rails_apps_composer gem provided by the "RailsApps Project":http://railsapps.github.io/.
 
 This application was built with recipes that are known to work together.
 
