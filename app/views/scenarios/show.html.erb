@@ -11,13 +11,13 @@
 </p>
 
 <p>
-  <strong>Config template:</strong>
-  <%= @scenario.config_template %>
+  <strong>Config template:</strong><br/>
+  <pre><%= @scenario.config_template %></pre>
 </p>
 
 <p>
   <strong>Test run:</strong>
-  <%= @scenario.test_run %>
+  <%= link_to @scenario.test_run.try(:id), @scenario.test_run if @scenario.test_run %>
 </p>
 
 <%= link_to 'Edit', edit_scenario_path(@scenario) %> |
