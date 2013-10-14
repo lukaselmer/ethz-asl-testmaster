@@ -9,11 +9,11 @@ class DeploymentService::SSHHelper
   end
 
   def check_deleted(file_or_dir_path)
-    railse RuntimeError.new("File or directory #{file_or_dir_path} should exist!") if exists?(file_or_dir_path)
+    raise RuntimeError.new("File or directory #{file_or_dir_path} should exist!") if exists?(file_or_dir_path)
   end
 
   def check_existence(file_or_dir_path)
-    railse RuntimeError.new("File or directory #{file_or_dir_path} should exist!") unless exists?(file_or_dir_path)
+    raise RuntimeError.new("File or directory #{file_or_dir_path} should exist!") unless exists?(file_or_dir_path)
   end
 
   def exists?(file_or_dir_path)

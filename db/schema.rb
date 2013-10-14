@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011223833) do
+ActiveRecord::Schema.define(version: 20131013145559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,16 @@ ActiveRecord::Schema.define(version: 20131011223833) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "scenario_executions", force: true do |t|
+    t.integer  "scenario_id"
+    t.integer  "machine_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scenario_executions", ["machine_id"], name: "index_scenario_executions_on_machine_id", using: :btree
+  add_index "scenario_executions", ["scenario_id"], name: "index_scenario_executions_on_scenario_id", using: :btree
 
   create_table "scenarios", force: true do |t|
     t.string   "name"

@@ -26,4 +26,18 @@ describe TestRun do
       test_run.state.should eq(:ended)
     end
   end
+
+  describe 'instances' do
+    it 'should have the correct total instances' do
+      test_run = TestRun.new
+      test_run.total_instances.should eq(0)
+      test_run.scenarios << Scenario.new(execution_multiplicity: 3)
+      test_run.total_instances.should eq(3)
+      test_run.scenarios << Scenario.new(execution_multiplicity: 2)
+      test_run.total_instances.should eq(5)
+      test_run.scenarios << Scenario.new(execution_multiplicity: 20)
+      test_run.total_instances.should eq(25)
+    end
+  end
+
 end

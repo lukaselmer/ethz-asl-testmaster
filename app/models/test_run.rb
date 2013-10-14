@@ -24,6 +24,10 @@ class TestRun < ActiveRecord::Base
     !ended_at.nil?
   end
 
+  def running?
+    state == :running
+  end
+
   def state
     return :ended if ended?
     return :running if started?
@@ -31,10 +35,14 @@ class TestRun < ActiveRecord::Base
   end
 
   def start
-    # TODO
+    DeploymentService.new(self).start_test
   end
 
   def stop
     # TODO
+  end
+
+  def total_instances
+    scenarios.to_a.sum(&:execution_multiplicity)
   end
 end

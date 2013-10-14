@@ -5,9 +5,16 @@ class DeploymentService::LoggingSSH
   end
 
   def exec!(command)
-
     command_in = [Time.now, "> #{command}"]
     ret = @ssh.exec!(command)
+    command_out = [Time.now, ret]
+    @log << [command_in, command_out]
+    ret
+  end
+
+  def exec(command)
+    command_in = [Time.now, "> #{command}"]
+    ret = @ssh.exec(command)
     command_out = [Time.now, ret]
     @log << [command_in, command_out]
     ret
