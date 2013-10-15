@@ -86,32 +86,37 @@ class DeploymentService
   def copy_jars_and_configs_to_machines(scenario_execution_mapping)
     scenario_execution_mapping.each do |scenario_execution|
       machine = scenario_execution.machine
-
-      raise "Machine #{machine.instance_id} doesn't have an ip!" if machine.ip_address.to_s.blank?
-
-      Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-        ssh = DeploymentService::LoggingSSH.new(ssh_raw)
-
-        begin
-          helper = DeploymentService::EnhancedSSH.new(ssh)
-          output = ssh.exec!('whoami')
-          raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
-
-          helper.check_deleted(@remote_directory)
-
-          [@remote_test_directory, @remote_directory, @remote_performance_log_dir, @remote_system_log_dir].each do |f|
-            ssh.exec!("mkdir #{f}")
-          end
-
-          copy_jar(helper, scenario_execution)
-          copy_dependencies(helper, scenario_execution)
-          copy_configs(helper, scenario_execution)
-        ensure
-          puts ssh
-        end
-      end
+      copy_jars_and_configs_to_machine(machine, scenario_execution)
     end
 
+  end
+
+  def copy_jars_and_configs_to_machine(machine, scenario_execution)
+    raise "Machine #{machine.instance_id} doesn't have an ip!" if machine.ip_address.to_s.blank?
+
+    Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
+      ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
+
+      begin
+        ssh.ensure_connection! @ssh_user
+
+        ssh.check_deleted(@remote_directory)
+
+        create_remote_folders(ssh)
+
+        copy_jar(ssh, scenario_execution)
+        copy_dependencies(ssh, scenario_execution)
+        copy_configs(ssh, scenario_execution)
+      ensure
+        puts ssh
+      end
+    end
+  end
+
+  def create_remote_folders(ssh)
+    [@remote_test_directory, @remote_directory, @remote_performance_log_dir, @remote_system_log_dir].each do |f|
+      ssh.exec!("mkdir #{f}")
+    end
   end
 
   def copy_jar(helper, scenario_execution)
@@ -142,7 +147,7 @@ class DeploymentService
       machine = scenario_execution.machine
 
       Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-        ssh = DeploymentService::LoggingSSH.new(ssh_raw)
+        ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
 
         begin
           output = ssh.exec!('whoami')
@@ -160,7 +165,7 @@ class DeploymentService
       machine = scenario_execution.machine
 
       Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-        ssh = DeploymentService::LoggingSSH.new(ssh_raw)
+        ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
 
         begin
           output = ssh.exec!('whoami')

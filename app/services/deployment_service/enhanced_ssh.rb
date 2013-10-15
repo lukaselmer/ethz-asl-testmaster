@@ -1,6 +1,19 @@
 class DeploymentService::EnhancedSSH
   def initialize(ssh)
-    @ssh = ssh
+    @ssh = DeploymentService::LoggingSSH.new(ssh)
+  end
+
+  def exec!(command)
+    @ssh.exec!(command)
+  end
+
+  def exec(command)
+    @ssh.exec(command)
+  end
+
+  def ensure_connection! user
+    output = exec!('whoami')
+    raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == user
   end
 
   def delete(file)
@@ -18,5 +31,9 @@ class DeploymentService::EnhancedSSH
 
   def exists?(file_or_dir_path)
     @ssh.exec!("ls #{file_or_dir_path}").strip == file_or_dir_path
+  end
+
+  def to_s
+    @ssh.to_s
   end
 end

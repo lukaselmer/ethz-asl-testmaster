@@ -29,7 +29,7 @@ describe 'Deplyoment service' do
         p e
         raise e
       end
-    #end
+    end
   end
 
   it 'should have a cmd executor which can execute and log commands' do
