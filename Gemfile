@@ -27,6 +27,7 @@ group :development do
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-rspec', require: false, github: 'guard/guard-rspec'
+  gem 'guard-livereload', require: false
   gem 'hub', require: nil
   gem 'quiet_assets'
   gem 'rails_layout'
@@ -48,4 +49,5 @@ group :test do
   gem 'email_spec'
   gem 'codeclimate-test-reporter', require: nil
   gem 'coveralls', require: false
+  gem 'launchy'
 end
