@@ -1,4 +1,6 @@
 class ScenarioExecution < ActiveRecord::Base
+  include DeploymentService::Downloader
+
   belongs_to :scenario
   belongs_to :machine
 
@@ -30,15 +32,5 @@ class ScenarioExecution < ActiveRecord::Base
       ret[scenario_execution.scenario.name] << scenario_execution.machine.ip_address
     end
     ret.to_a.collect{|scenario_name, ips| [scenario_name, ips.join(',')].join(':')}.join(';')
-  end
-
-  def download_from_uri(dest, source)
-    require 'open-uri'
-    File.open(dest, 'w') do |f|
-      open(source).readlines.each do |line|
-        f << line
-      end
-      yield(f) if block_given?
-    end
   end
 end

@@ -1,14 +1,6 @@
 require 'spec_helper'
 
-def download_from_uri(dest, source)
-  require 'open-uri'
-  File.open(dest, 'w') do |f|
-    open(source).readlines.each do |line|
-      f << line
-    end
-    yield(f) if block_given?
-  end
-end
+include DeploymentService::Downloader
 
 def generate_config_file_for_broker
   require 'open-uri'
@@ -24,7 +16,7 @@ end
 
 describe 'Deplyoment service' do
   it 'should initialize the depoyment service' do
-    if false
+    if RUBY_PLATFORM =~ /darwin/i # only execute this test locally
       begin
         test_run = TestRun.create!(name: 'first test')
 
@@ -37,7 +29,7 @@ describe 'Deplyoment service' do
         p e
         raise e
       end
-    end
+    #end
   end
 
   it 'should have a cmd executor which can execute and log commands' do
