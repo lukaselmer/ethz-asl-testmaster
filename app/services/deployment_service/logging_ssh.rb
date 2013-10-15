@@ -1,4 +1,6 @@
 class DeploymentService::LoggingSSH
+  include DeploymentService::LogPrinter
+
   def initialize(ssh)
     @ssh = ssh
     @log = []
@@ -21,8 +23,6 @@ class DeploymentService::LoggingSSH
   end
 
   def to_s
-    @log.map do |(time_in, val_in), (time_out, val_out)|
-      ["Started: #{time_in}", "Duration: #{time_out - time_in}", val_in, val_out].join("\n")
-    end.join("\n\n--\n")
+    log_to_string(@log)
   end
 end
