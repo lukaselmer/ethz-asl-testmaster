@@ -1,4 +1,4 @@
-class DeploymentService::SSHHelper
+class DeploymentService::EnhancedSSH
   def initialize(ssh)
     @ssh = ssh
   end

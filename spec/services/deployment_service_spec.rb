@@ -24,7 +24,7 @@ end
 
 describe 'Deplyoment service' do
   it 'should initialize the depoyment service' do
-    if false
+    #if false
       begin
         test_run = TestRun.create!(name: 'first test')
 
@@ -37,6 +37,14 @@ describe 'Deplyoment service' do
         p e
         raise e
       end
-    end
+    #end
+  end
+
+  it 'should have a cmd executor which can execute and log commands' do
+    c = DeploymentService::CmdExecutor.new
+    ret = c.exec!('echo "test"')
+    ret.strip.should eq('test')
+    c.to_s.split("\n")[2].should eq('> echo "test"')
+    c.to_s.split("\n")[3].should eq('test')
   end
 end

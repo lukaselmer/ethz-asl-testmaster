@@ -10,7 +10,7 @@ EthzAslTestmaster::Application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
@@ -28,13 +28,13 @@ EthzAslTestmaster::Application.configure do
   config.assets.debug = true
 
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    domain: ENV['DOMAIN_NAME'],
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    user_name: ENV['GMAIL_USERNAME'],
-    password: ENV['GMAIL_PASSWORD']
+      address: 'smtp.gmail.com',
+      port: 587,
+      domain: ENV['DOMAIN_NAME'],
+      authentication: 'plain',
+      enable_starttls_auto: true,
+      user_name: ENV['GMAIL_USERNAME'],
+      password: ENV['GMAIL_PASSWORD']
   }
   # Send email in development mode.
   config.action_mailer.perform_deliveries = true
