@@ -119,18 +119,21 @@ class DeploymentService
     helper.check_existence(@remote_run_jar_path)
   end
 
+  def upload!(file, helper, scenario_execution)
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/")
+    helper.check_existence("#{@remote_directory}/#{File.basename(file)}")
+  end
+
   def copy_dependencies(helper, scenario_execution)
     @jar_executor.dependencies.each do |file|
-      Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/")
-      helper.check_existence("#{@remote_directory}/#{File.basename(file)}")
+      upload!(file, helper, scenario_execution)
     end
   end
 
   def copy_configs(helper, scenario_execution)
     path = "#{@machines_path}/#{scenario_execution.config_folder}"
     Dir["#{path}/*.*"].each do |file|
-      Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/")
-      helper.check_existence("#{@remote_directory}/#{File.basename(file)}")
+      upload!(file, helper, scenario_execution)
     end
   end
 
