@@ -1,12 +1,10 @@
 require 'net/scp'
-require 'net/ssh'
 
 class DeploymentService
   include DeploymentService::MachineMappingGenerator
   include DeploymentService::Downloader
 
   def initialize(test_run)
-
     @test_run = test_run
     @ssh_user = 'ubuntu'
 
@@ -94,9 +92,7 @@ class DeploymentService
   def copy_jars_and_configs_to_machine(machine, scenario_execution)
     raise "Machine #{machine.instance_id} doesn't have an ip!" if machine.ip_address.to_s.blank?
 
-    Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-      ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
-
+    DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
       begin
         ssh.ensure_connection! @ssh_user
 
@@ -146,9 +142,7 @@ class DeploymentService
     scenario_execution_mapping.each do |scenario_execution|
       machine = scenario_execution.machine
 
-      Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-        ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
-
+      DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
         begin
           output = ssh.exec!('whoami')
           raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
@@ -163,23 +157,24 @@ class DeploymentService
   def start_machines(scenario_execution_mapping)
     scenario_execution_mapping.each do |scenario_execution|
       machine = scenario_execution.machine
+      start_machine(machine, scenario_execution)
+    end
+  end
 
-      Net::SSH.start(machine.ip_address, @ssh_user) do |ssh_raw| #, key_data: @machine.private_key
-        ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
+  def start_machine(machine, scenario_execution)
+    DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
+      begin
+        output = ssh.exec!('whoami')
+        raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
 
-        begin
-          output = ssh.exec!('whoami')
-          raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
+        ssh.exec!('killall java')
 
-          ssh.exec!('killall java')
+        jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
+        jars << [@remote_run_jar_path]
 
-          jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
-          jars << [@remote_run_jar_path]
-
-          ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_system_log_dir))
-        ensure
-          puts ssh
-        end
+        ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_system_log_dir))
+      ensure
+        puts ssh
       end
     end
   end

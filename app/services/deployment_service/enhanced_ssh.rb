@@ -1,6 +1,21 @@
+require 'net/ssh'
+
 class DeploymentService::EnhancedSSH
   def initialize(ssh)
     @ssh = DeploymentService::LoggingSSH.new(ssh)
+  end
+
+  def self.start(host, user)
+    Net::SSH.start(host, user) do |ssh_raw|
+      enhanced_ssh = new(ssh_raw)
+      enhanced_ssh.ensure_connection!(user)
+      yield(enhanced_ssh)
+    end
+  end
+
+  def ensure_connection! user
+    output = exec!('whoami')
+    raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == user
   end
 
   def exec!(command)
@@ -9,11 +24,6 @@ class DeploymentService::EnhancedSSH
 
   def exec(command)
     @ssh.exec(command)
-  end
-
-  def ensure_connection! user
-    output = exec!('whoami')
-    raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == user
   end
 
   def delete(file)

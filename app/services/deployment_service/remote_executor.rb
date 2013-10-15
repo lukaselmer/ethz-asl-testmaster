@@ -6,9 +6,7 @@ class DeploymentService::RemoteExecutor
   end
 
   def execute_test
-    Net::SSH.start(@machine.host, 'ubuntu') do |ssh_raw| #, key_data: @machine.private_key
-      ssh = DeploymentService::EnhancedSSH.new(ssh_raw)
-
+    DeploymentService::EnhancedSSH.start(@machine.host, 'ubuntu') do |ssh|
       begin
         output = ssh.exec!('whoami')
         raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == 'ubuntu'
