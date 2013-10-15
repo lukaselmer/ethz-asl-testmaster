@@ -24,7 +24,7 @@ end
 
 describe 'Deplyoment service' do
   it 'should initialize the depoyment service' do
-    #if false
+    if false
       begin
         test_run = TestRun.create!(name: 'first test')
 
@@ -37,7 +37,7 @@ describe 'Deplyoment service' do
         p e
         raise e
       end
-    #end
+    end
   end
 
   it 'should have a cmd executor which can execute and log commands' do
