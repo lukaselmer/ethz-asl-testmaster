@@ -20,6 +20,10 @@ class TestRun < ActiveRecord::Base
     !started_at.nil?
   end
 
+  def stopped?
+    !stopped_at.nil?
+  end
+
   def ended?
     !ended_at.nil?
   end
@@ -30,6 +34,7 @@ class TestRun < ActiveRecord::Base
 
   def state
     return :ended if ended?
+    return :stopped if started? && stopped?
     return :running if started?
     :not_started
   end
@@ -39,7 +44,7 @@ class TestRun < ActiveRecord::Base
   end
 
   def stop
-    # TODO
+    TestRunStopper.new(self).stop
   end
 
   def total_instances

@@ -10,9 +10,11 @@ class ScenarioExecution < ActiveRecord::Base
 
   def generate_config_files(path, scenario_execution_mapping, index)
     config = scenario.config_template
-    %w(MLMQ_DB_URL MLMQ_DB_NAME MLMQ_DB_USER MLMQ_DB_PASSWORD).each do |s|
+    %w(MLMQ_DB_NAME MLMQ_DB_USER MLMQ_DB_PASSWORD).each do |s|
       config = config.gsub("\#\{#{s}\}", ENV[s])
     end
+    config = config.gsub '#{MLMQ_DB_URL}', AwsService.new.resolve_db_url
+
     File.open("#{path}/config.properties", 'w') do |f|
       f.puts config
       f.puts "scenario.mapping = #{generate_mapping(scenario_execution_mapping)}"

@@ -9,11 +9,7 @@ class DeploymentService::CmdExecutor
     command_in = [Time.now, "> #{command}"]
     ret = %x{#{command}}
     command_out = [Time.now, ret]
-    @log << [command_in, command_out]
+    log_command(command_in, command_out)
     ret
-  end
-
-  def to_s
-    log_to_string(@log)
   end
 end

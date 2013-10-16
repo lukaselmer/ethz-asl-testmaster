@@ -25,7 +25,8 @@ class DeploymentService::JarExecutor
     logging_properties_path = "#{@jar_compiler.setup_path}/logging.properties"
     download_from_uri(logging_properties_path, s)
 
-    common_cmd = "#{base_command(@jar_compiler.setup_path, jars)} dbscript -url \"#{ENV['MLMQ_DB_URL']}\" -db \"#{ENV['MLMQ_DB_NAME']}\" -user \"#{ENV['MLMQ_DB_USER']}\" -password \"#{ENV['MLMQ_DB_PASSWORD']}\" -l \"#{logging_properties_path}\""
+    db_url = AwsService.new.resolve_db_url
+    common_cmd = "#{base_command(@jar_compiler.setup_path, jars)} dbscript -url \"#{db_url}\" -db \"#{ENV['MLMQ_DB_NAME']}\" -user \"#{ENV['MLMQ_DB_USER']}\" -password \"#{ENV['MLMQ_DB_PASSWORD']}\" -l \"#{logging_properties_path}\""
     @cmd_executor.exec! "#{common_cmd} -dropDatabase -createDatabase -createTables"
   end
 

@@ -6,6 +6,10 @@ class MachineService
     @server_id = ENV['SERVER_ID']
   end
 
+  def resolve_instance_ip_address(id)
+    @ec2.instances[id].ip_address
+  end
+
   def my_instances
     @ec2.instances.to_a.select { |i| i.user_data == @server_id && i.status != :terminated }
   end

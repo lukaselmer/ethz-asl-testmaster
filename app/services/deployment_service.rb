@@ -6,14 +6,15 @@ class DeploymentService
 
   def initialize(test_run)
     @test_run = test_run
-    @ssh_user = 'ubuntu'
+    @remote_path_config = DeploymentService::RemotePathConfig.new(test_run)
+
+    @ssh_user = ENV['AWS_SSH_USER']
 
     @cmd_executor = DeploymentService::CmdExecutor.new
 
     raise '@test_run needs to be persistent' if @test_run.id.nil?
 
     @local_tmp_dir = "#{Rails.root}/tmp/setup/#{@test_run.id}"
-    raise "Directory #{@local_tmp_dir} already exists" if Dir.exist? @local_tmp_dir
 
     @run_path = "#{@local_tmp_dir}/run"
     @jar_path = "#{@run_path}/run.jar"
@@ -22,20 +23,16 @@ class DeploymentService
 
     @machines_path = "#{@run_path}/machines"
 
-    @remote_test_directory = "/home/ubuntu/messaging_system/tests"
-    @remote_directory = "#{@remote_test_directory}/#{@test_run.id}"
-    @remote_run_jar_path = "#{@remote_directory}/run.jar"
-    @remote_performance_log_dir = "#{@remote_directory}/performance_log"
-    @remote_system_log_dir = "#{@remote_directory}/system_log"
+    @remote_directory = @remote_path_config.remote_directory
 
     @git_cloner = DeploymentService::GitCloner.new(@cmd_executor, @local_tmp_dir)
     @jar_compiler = DeploymentService::JarCompiler.new(@cmd_executor, @git_cloner.git_path, @jar_path, @setup_path)
     @jar_executor = DeploymentService::JarExecutor.new(@cmd_executor, @jar_compiler, @remote_directory)
-
-    [@local_tmp_dir, @run_path, @setup_path, @machines_path].each { |d| FileUtils.mkpath d }
   end
 
   def start_test
+    raise "Directory #{@local_tmp_dir} already exists" if Dir.exist? @local_tmp_dir
+    [@local_tmp_dir, @run_path, @setup_path, @machines_path].each { |d| FileUtils.mkpath d }
     begin
       check_no_other_tests_running!
       mark_as_started!
@@ -56,6 +53,8 @@ class DeploymentService
       puts @cmd_executor.to_s
     end
   end
+
+  # TODO: set private
 
   def check_no_other_tests_running!
     TestRun.all do |test_run|
@@ -94,8 +93,6 @@ class DeploymentService
 
     DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
       begin
-        ssh.ensure_connection! @ssh_user
-
         ssh.check_deleted(@remote_directory)
 
         create_remote_folders(ssh)
@@ -110,14 +107,14 @@ class DeploymentService
   end
 
   def create_remote_folders(ssh)
-    [@remote_test_directory, @remote_directory, @remote_performance_log_dir, @remote_system_log_dir].each do |f|
+    [@remote_path_config.remote_test_directory, @remote_directory, @remote_path_config.remote_performance_log_dir, @remote_path_config.remote_system_log_dir].each do |f|
       ssh.exec!("mkdir #{f}")
     end
   end
 
   def copy_jar(helper, scenario_execution)
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @jar_path, @remote_run_jar_path)
-    helper.check_existence(@remote_run_jar_path)
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @jar_path, @remote_path_config.remote_run_jar_path)
+    helper.check_existence(@remote_path_config.remote_run_jar_path)
   end
 
   def upload!(file, helper, scenario_execution)
@@ -170,9 +167,9 @@ class DeploymentService
         ssh.exec!('killall java')
 
         jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
-        jars << [@remote_run_jar_path]
+        jars << [@remote_path_config.remote_run_jar_path]
 
-        ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_system_log_dir))
+        ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_path_config.remote_system_log_dir))
       ensure
         puts ssh
       end
