@@ -9,15 +9,18 @@
     <%= t.attribute :log_count do %>
       <%= @logs.count %>
     <% end %>
-    <%= t.attribute :average_execution_time do %>
+    <%= t.attribute :average_execution_time_in_milliseconds do %>
       <%= @logs.average(:execution_in_microseconds) %>
     <% end %>
-    <%= t.attribute :min_execution_time do %>
+    <%= t.attribute :min_execution_time_in_milliseconds do %>
       <%= @logs.minimum(:execution_in_microseconds) %>
     <% end %>
-    <%= t.attribute :max_execution_time do %>
+    <%= t.attribute :max_execution_time_in_milliseconds do %>
       <%= @logs.maximum(:execution_in_microseconds) %>
     <% end %>
+    <%#= t.attribute :variance do %>
+      <%#= @logs.calculate('corr', 'execution_in_microseconds') %>
+    <%# end %>
 
     <%= high_chart('graph_for_type', @logs_graph) if @logs_graph %>
 
