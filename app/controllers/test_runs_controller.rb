@@ -18,6 +18,27 @@ class TestRunsController < ApplicationController
         end
       end
       send_data str, filename: "test_run_#{@test_run.id}.csv"
+      return
+    end
+
+    if params[:type]
+      @type = params[:type]
+      @logs = @test_run.test_run_logs.where(message_type: @type)
+
+      return
+
+      @logs_graph = LazyHighCharts::HighChart.new('graph') do |f|
+        f.title(text: "Response Time for #{@type}")
+        f.xAxis(categories: @logs.collect(&:logged_at))
+        f.series(name: 'Response time in Microseconds', yAxis: 0, data: @logs.collect(&:execution_in_microseconds))
+
+        f.yAxis [
+                    {title: {text: 'Time in Microseconds', margin: 70}},
+                ]
+
+        f.legend(align: 'right', verticalAlign: 'top', y: 75, x: -50, layout: 'vertical',)
+        f.chart({defaultSeriesType: 'column'})
+      end
     end
   end
 
