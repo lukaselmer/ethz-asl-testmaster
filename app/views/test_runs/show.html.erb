@@ -18,9 +18,14 @@
     <%= t.attribute :max_execution_time_in_milliseconds do %>
       <%= @logs.maximum(:execution_in_microseconds) %>
     <% end %>
-    <%#= t.attribute :variance do %>
-      <%#= @logs.calculate('corr', 'execution_in_microseconds') %>
-    <%# end %>
+    <% [:stddev, :stddev_pop, :stddev_samp, :variance, :var_pop, :var_samp].each do |meth| %>
+      <%= t.attribute meth do %>
+        <%= @logs.select("#{meth}(execution_in_microseconds) as id").to_a.first.id %>
+      <% end %>
+    <% end %>
+    <%= t.attribute :explanations do %>
+      <%= link_to 'Postgres Doc', 'http://www.postgresql.org/docs/9.1/static/functions-aggregate.html' %>
+    <% end %>
 
     <%= high_chart('graph_for_type', @logs_graph) if @logs_graph %>
 
