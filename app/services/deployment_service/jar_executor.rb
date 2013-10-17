@@ -1,4 +1,5 @@
 class DeploymentService::JarExecutor
+  include DeploymentService::Downloader
 
   def initialize(cmd_executor, jar_compiler, remote_directory)
     @jar_compiler = jar_compiler
