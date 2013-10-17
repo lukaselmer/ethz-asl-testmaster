@@ -18,6 +18,8 @@ gem 'simple_form', '>= 3.0.0.rc'
 gem 'aws-sdk', github: 'aws/aws-sdk-ruby'
 gem 'cocoon'
 gem 'show_for', github: 'plataformatec/show_for'
+gem 'rails_admin'
+gem 'paper_trail'
 group :development do
   gem 'better_errors'
   #noinspection RailsParamDefResolve
