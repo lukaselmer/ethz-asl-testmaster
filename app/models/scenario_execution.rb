@@ -4,6 +4,8 @@ class ScenarioExecution < ActiveRecord::Base
   belongs_to :scenario
   belongs_to :machine
 
+  has_many :test_run_logs
+
   def config_folder
     "#{scenario.id}_#{machine.id}"
   end

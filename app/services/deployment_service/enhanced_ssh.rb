@@ -40,7 +40,7 @@ class DeploymentService::EnhancedSSH
   end
 
   def exists?(file_or_dir_path)
-    @ssh.exec!("ls #{file_or_dir_path}").strip == file_or_dir_path
+    @ssh.exec!("ls #{file_or_dir_path}").to_s.strip == file_or_dir_path
   end
 
   def to_s

@@ -7,6 +7,7 @@ class DeploymentService
   def initialize(test_run)
     @test_run = test_run
     @remote_path_config = DeploymentService::RemotePathConfig.new(test_run)
+    @local_path_config = DeploymentService::LocalPathConfig.new(test_run)
 
     @ssh_user = ENV['AWS_SSH_USER']
 
@@ -14,25 +15,16 @@ class DeploymentService
 
     raise '@test_run needs to be persistent' if @test_run.id.nil?
 
-    @local_tmp_dir = "#{Rails.root}/tmp/setup/#{@test_run.id}"
-
-    @run_path = "#{@local_tmp_dir}/run"
-    @jar_path = "#{@run_path}/run.jar"
-
-    @setup_path = "#{@run_path}/setup"
-
-    @machines_path = "#{@run_path}/machines"
-
     @remote_directory = @remote_path_config.remote_directory
 
-    @git_cloner = DeploymentService::GitCloner.new(@cmd_executor, @local_tmp_dir)
-    @jar_compiler = DeploymentService::JarCompiler.new(@cmd_executor, @git_cloner.git_path, @jar_path, @setup_path)
+    @git_cloner = DeploymentService::GitCloner.new(@cmd_executor, @local_path_config.local_tmp_dir)
+    @jar_compiler = DeploymentService::JarCompiler.new(@cmd_executor, @git_cloner.git_path, @local_path_config.jar_path, @local_path_config.setup_path)
     @jar_executor = DeploymentService::JarExecutor.new(@cmd_executor, @jar_compiler, @remote_directory)
   end
 
   def start_test
-    raise "Directory #{@local_tmp_dir} already exists" if Dir.exist? @local_tmp_dir
-    [@local_tmp_dir, @run_path, @setup_path, @machines_path].each { |d| FileUtils.mkpath d }
+    raise "Directory #{@local_path_config.local_tmp_dir} already exists" if Dir.exist? @local_path_config.local_tmp_dir
+    %i(local_tmp_dir run_path setup_path machines_path collected_logs_path).each { |d| FileUtils.mkpath @local_path_config.send(d) }
     begin
       check_no_other_tests_running!
       mark_as_started!
@@ -74,7 +66,7 @@ class DeploymentService
 
   def generate_machine_configs(scenario_execution_mapping)
     scenario_execution_mapping.each_with_index do |scenario_execution, index|
-      path = "#{@machines_path}/#{scenario_execution.config_folder}"
+      path = @local_path_config.scenario_execution_folder(scenario_execution)
       FileUtils.mkpath path
       scenario_execution.generate_config_files path, scenario_execution_mapping, index
     end
@@ -92,17 +84,13 @@ class DeploymentService
     raise "Machine #{machine.instance_id} doesn't have an ip!" if machine.ip_address.to_s.blank?
 
     DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
-      begin
-        ssh.check_deleted(@remote_directory)
+      ssh.check_deleted(@remote_directory)
 
-        create_remote_folders(ssh)
+      create_remote_folders(ssh)
 
-        copy_jar(ssh, scenario_execution)
-        copy_dependencies(ssh, scenario_execution)
-        copy_configs(ssh, scenario_execution)
-      ensure
-        puts ssh
-      end
+      copy_jar(ssh, scenario_execution)
+      copy_dependencies(ssh, scenario_execution)
+      copy_configs(ssh, scenario_execution)
     end
   end
 
@@ -113,7 +101,7 @@ class DeploymentService
   end
 
   def copy_jar(helper, scenario_execution)
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @jar_path, @remote_path_config.remote_run_jar_path)
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @local_path_config.jar_path, @remote_path_config.remote_run_jar_path)
     helper.check_existence(@remote_path_config.remote_run_jar_path)
   end
 
@@ -129,7 +117,7 @@ class DeploymentService
   end
 
   def copy_configs(helper, scenario_execution)
-    path = "#{@machines_path}/#{scenario_execution.config_folder}"
+    path = @local_path_config.scenario_execution_folder(scenario_execution)
     Dir["#{path}/*.*"].each do |file|
       upload!(file, helper, scenario_execution)
     end
@@ -140,13 +128,9 @@ class DeploymentService
       machine = scenario_execution.machine
 
       DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
-        begin
-          output = ssh.exec!('whoami')
-          raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
-          ssh.exec!('killall java')
-        ensure
-          puts ssh
-        end
+        output = ssh.exec!('whoami')
+        raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
+        ssh.exec!('killall java')
       end
     end
   end
@@ -160,19 +144,15 @@ class DeploymentService
 
   def start_machine(machine, scenario_execution)
     DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
-      begin
-        output = ssh.exec!('whoami')
-        raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
+      output = ssh.exec!('whoami')
+      raise RuntimeError.new("Unable to execute a command on ssh. Output: #{output}") unless output.strip == @ssh_user
 
-        ssh.exec!('killall java')
+      ssh.exec!('killall java')
 
-        jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
-        jars << [@remote_path_config.remote_run_jar_path]
+      jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
+      jars << [@remote_path_config.remote_run_jar_path]
 
-        ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_path_config.remote_system_log_dir))
-      ensure
-        puts ssh
-      end
+      ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_path_config.remote_system_log_dir))
     end
   end
 end

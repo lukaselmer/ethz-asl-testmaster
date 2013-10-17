@@ -8,11 +8,7 @@ class TestRunStopper::ScenarioExecutionStopper
 
   def stop_scenario
     DeploymentService::EnhancedSSH.start(@scenario_execution.machine.ip_address, @ssh_user) do |ssh|
-      begin
-        ssh.exec!("echo 'shutdown' > #{@remote_path_config.remote_directory}")
-      ensure
-        puts ssh
-      end
+      ssh.exec!("echo 'shutdown' > #{@remote_path_config.commando_file}")
     end
   end
 end

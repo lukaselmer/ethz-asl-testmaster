@@ -11,6 +11,10 @@ class DeploymentService::RemotePathConfig
     "#{remote_test_directory}/#{@test_run.id}"
   end
 
+  def commando_file
+    "#{remote_directory}/commando.txt"
+  end
+
   def remote_run_jar_path
     "#{remote_directory}/run.jar"
   end

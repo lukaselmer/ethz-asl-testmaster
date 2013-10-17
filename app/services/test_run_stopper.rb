@@ -13,6 +13,7 @@ class TestRunStopper
     sleep @sleep_between_stop_and_log_collection
     scenario_executions.each { |se| collect_logs(se) }
     @test_run.update_attribute :ended_at, Time.now
+    scenario_executions.each { |se| analyze_logs(se) }
   end
 
   private
@@ -23,5 +24,9 @@ class TestRunStopper
 
   def collect_logs(scenario_execution)
     TestRunStopper::LogCollector.new(@test_run, scenario_execution).collect_logs
+  end
+
+  def analyze_logs(scenario_execution)
+    TestRunStopper::LogAnalyzer.new(@test_run, scenario_execution).analyze_logs
   end
 end
