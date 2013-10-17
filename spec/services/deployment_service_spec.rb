@@ -16,7 +16,7 @@ end
 
 describe 'Deplyoment service' do
   it 'should initialize the depoyment service' do
-    if RUBY_PLATFORM =~ /darwin/i && true # only execute this test locally
+    if RUBY_PLATFORM =~ /darwin/i && false # only execute this test locally
       begin
         test_run = TestRun.create!(name: 'first test')
 
