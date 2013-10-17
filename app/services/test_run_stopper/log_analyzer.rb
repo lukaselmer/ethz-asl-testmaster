@@ -11,7 +11,6 @@ class TestRunStopper::LogAnalyzer
 
   def analyze_logs_rec(path)
     Dir["#{path}/**"].each do |d|
-      p = "#{path}/#{d}"
       analyze_logs_rec p if Dir.exists?(p)
       analyze_log p if p.ends_with?('.log') && File.exists?(p)
     end
