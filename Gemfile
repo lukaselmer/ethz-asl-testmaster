@@ -20,6 +20,7 @@ gem 'cocoon'
 gem 'show_for', github: 'plataformatec/show_for'
 gem 'rails_admin'
 gem 'paper_trail'
+gem 'lazy_high_charts'
 group :development do
   gem 'better_errors'
   #noinspection RailsParamDefResolve

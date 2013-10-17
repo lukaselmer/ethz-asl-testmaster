@@ -1,6 +1,9 @@
 <%= show_for @test_run do |t| %>
   <%= t.attributes :name, :state %>
 
+  <div><%= @test_run.test_run_logs.count %></div>
+  <div><%= @test_run.test_run_logs.group(:message_type).count(:id).collect { |k, v| "#{k}(#{v})" }.join(', ') %></div>
+
   <%= t.association :scenarios do %>
 
     <table class="table table-condensed">

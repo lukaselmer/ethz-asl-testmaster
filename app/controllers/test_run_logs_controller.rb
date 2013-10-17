@@ -4,7 +4,18 @@ class TestRunLogsController < ApplicationController
   # GET /test_run_logs
   # GET /test_run_logs.json
   def index
-    @test_run_logs = TestRunLog.all
+    @test_run_logs = TestRunLog.limit(100)
+
+    #@test_run_logs = TestRunLog.connection.execute('select message_type,
+    #                                    AVG(execution_in_microseconds) as avg,
+    #                                    COUNT(id) as count from test_run_logs group by message_type')
+    #tot = TestRunLog.group(:message_type)
+    #
+    #avg = tot.average(:execution_in_microseconds)
+    #min = tot.minimum(:execution_in_microseconds)
+    #max = tot.maximum(:execution_in_microseconds)
+    #count = tot.count
+    #@tot = avg.collect { |k, v| [k, avg[k], count[k], min[k], max[k]] }
   end
 
   # GET /test_run_logs/1
