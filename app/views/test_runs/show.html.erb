@@ -3,6 +3,7 @@
 
   <div><%= @test_run.test_run_logs.count %></div>
   <div><%= @test_run.test_run_logs.group(:message_type).count(:id).collect { |k, v| "#{k}(#{v})" }.join(', ') %></div>
+  <div><%= link_to 'Export', test_run_path(@test_run, export: true) %></div>
 
   <%= t.association :scenarios do %>
 

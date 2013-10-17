@@ -10,6 +10,15 @@ class TestRunsController < ApplicationController
   # GET /test_runs/1
   # GET /test_runs/1.json
   def show
+    if params[:export]
+      require 'csv'
+      str = CSV.generate do |csv|
+        @test_run.test_run_logs.each do |t|
+          csv << [t.message_type, t.execution_in_microseconds, t.logged_at]
+        end
+      end
+      send_data str, filename: "test_run_#{@test_run.id}.csv"
+    end
   end
 
   def start
