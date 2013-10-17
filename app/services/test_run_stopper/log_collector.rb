@@ -10,6 +10,6 @@ class TestRunStopper::LogCollector
   def collect_logs
     source = @remote_path_config.remote_performance_log_dir
     dest = @local_path_config.scenario_execution_logs_path(@scenario_execution)
-    Net::SCP.download!(@scenario_execution.machine.ip_address, @ssh_user, source, dest, recursive: true, keys: [ENV['AWS_SSH_KEY_PATH']])
+    Net::SCP.download!(@scenario_execution.machine.ip_address, @ssh_user, source, dest, recursive: true, ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
   end
 end
