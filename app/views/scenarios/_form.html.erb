@@ -4,7 +4,9 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :config_template %>
+    <%= f.input :scenario_type, as: :radio_buttons, collection: %w(client broker), label_method: -> (s) {s.humanize} %>
     <%= f.input :execution_multiplicity if @scenario.test_run %>
+    <%= f.input :execution_multiplicity_per_machine if @scenario.test_run %>
     <%= f.association :test_run, input_html: {disabled: true} if @scenario.test_run %>
   </div>
 

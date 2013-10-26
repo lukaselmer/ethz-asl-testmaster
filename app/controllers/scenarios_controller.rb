@@ -58,6 +58,6 @@ class ScenariosController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def scenario_params
-    params.require(:scenario).permit(:name, :execution_multiplicity, :config_template, :test_run_id)
+    params.require(:scenario).permit(:name, :scenario_type, :execution_multiplicity, :execution_multiplicity_per_machine, :config_template, :test_run_id)
   end
 end

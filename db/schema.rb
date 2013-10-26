@@ -68,8 +68,8 @@ ActiveRecord::Schema.define(version: 20131026053027) do
     t.integer  "test_run_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "scenario_type",               default: "client"
-    t.integer  "execution_count_per_machine", default: 1,        null: false
+    t.string   "scenario_type",                      default: "client"
+    t.integer  "execution_multiplicity_per_machine", default: 1,        null: false
   end
 
   add_index "scenarios", ["test_run_id"], name: "index_scenarios_on_test_run_id", using: :btree
