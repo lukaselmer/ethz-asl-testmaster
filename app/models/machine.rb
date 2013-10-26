@@ -1,4 +1,6 @@
 class Machine < ActiveRecord::Base
+  has_many :scenario_executions
+
   AWS_FIELDS = %i(ip_address owner_id launch_time instance_type instance_id dns_name status user_data availability_zone)
 
   TEST_STATES = [:idle, :testing, :log_collection]
