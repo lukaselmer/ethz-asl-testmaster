@@ -12,7 +12,8 @@ EthzAslTestmaster::Application.routes.draw do
     end
   end
 
-  root :to => 'home#index'
+  get '/logs', to: 'home#logs', as: 'logs'
+  root to: 'home#index'
 
   devise_for :users, controllers: {registrations: 'registrations'},
              skip: [:new, :registrations], skip_helpers: true
