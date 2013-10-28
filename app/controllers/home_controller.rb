@@ -10,6 +10,8 @@ class HomeController < ApplicationController
 
     %x{tail -n #{lines} #{logfile} > #{logfile_tail}}
 
-    send_file logfile_tail
+    send_file logfile_tail and return unless params[:show]
+
+    @logs = IO.readlines(logfile_tail).reverse
   end
 end

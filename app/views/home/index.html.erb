@@ -2,6 +2,7 @@
 
 Hi there! :)
 
-<p>
-  <%= link_to 'Download Server Logs Tail', logs_path(lines: 10000) %>
-</p>
+<ul>
+  <li><%= link_to 'Download Server Logs Tail', logs_path(lines: 10000) %></li>
+  <li><%= link_to 'Show Server Logs Tail', logs_path(lines: 1000, show: true) %></li>
+</ul>
