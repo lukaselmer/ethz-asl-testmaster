@@ -36,9 +36,9 @@ class DeploymentService::JarExecutor
     "cd \"#{dir}\" && java -cp \"#{jars.join(':')}\" #{main_class}"
   end
 
-  def command_for_client(jars, scenario_execution, remote_system_log_dir)
-    config = "#{@remote_directory}/config.properties"
-    logging = "#{@remote_directory}/logging.properties"
-    "#{base_command(@remote_directory, jars)} \"#{scenario_execution.scenario.name}\" -config \"#{config}\" -l \"#{logging}\" >> \"#{remote_system_log_dir}/log.log\" 2>&1 &"
+  def command_for_client(jars, sej, remote_system_log_dir)
+    config = "#{@remote_directory}/#{sej.id}/config.properties"
+    logging = "#{@remote_directory}/#{sej.id}/logging.properties"
+    "#{base_command(@remote_directory, jars)} scenario -config \"#{config}\" -l \"#{logging}\" >> \"#{remote_system_log_dir}/log.log\" 2>&1 &"
   end
 end

@@ -16,8 +16,8 @@ class MachineService
 
   def consistency_check!
     m = my_instances
-    if my_instances.count != Machine.count
-      msg = "Expected amazon instances count (#{my_instances.count}) to be equal to the machine count (#{Machine.count})"
+    if m.count != Machine.count
+      msg = "Expected amazon instances count (#{m.count}) to be equal to the machine count (#{Machine.count})"
       raise Exception.new(msg)
     end
   end

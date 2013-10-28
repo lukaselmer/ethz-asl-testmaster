@@ -25,25 +25,22 @@ class DeploymentService
   def start_test
     raise "Directory #{@local_path_config.local_tmp_dir} already exists" if Dir.exist? @local_path_config.local_tmp_dir
     %i(local_tmp_dir run_path setup_path machines_path collected_logs_path).each { |d| FileUtils.mkpath @local_path_config.send(d) }
-    begin
-      check_no_other_tests_running!
-      mark_as_started!
-      check_associated_scenarios!
 
-      m = MachineService.new
-      m.ensure_aws_instances(@test_run.total_instances)
+    check_no_other_tests_running!
+    mark_as_started!
+    check_associated_scenarios!
 
-      mapping = generate_scenario_machine_mapping(@test_run)
-      stop_java_on_machines(mapping)
-      @git_cloner.clone_git
-      @jar_compiler.compile_jar
-      @jar_executor.execute_setup
-      generate_machine_configs(mapping)
-      copy_jars_and_configs_to_machines(mapping)
-      start_machines(mapping)
-    ensure
-      puts @cmd_executor.to_s
-    end
+    m = MachineService.new
+    m.ensure_aws_instances(@test_run.total_instances)
+
+    mapping = generate_scenario_machine_mapping(@test_run)
+    stop_java_on_machines(mapping)
+    @git_cloner.clone_git
+    @jar_compiler.compile_jar
+    @jar_executor.execute_setup
+    generate_machine_configs(mapping)
+    copy_jars_and_configs_to_machines(mapping)
+    start_machines(mapping)
   end
 
   # TODO: set private
@@ -65,10 +62,12 @@ class DeploymentService
   end
 
   def generate_machine_configs(scenario_execution_mapping)
-    scenario_execution_mapping.each_with_index do |scenario_execution, index|
-      path = @local_path_config.scenario_execution_folder(scenario_execution)
-      FileUtils.mkpath path
-      scenario_execution.generate_config_files path, scenario_execution_mapping, index
+    scenario_execution_mapping.each do |scenario_execution|
+      scenario_execution.scenario_execution_jvms.each do |sej|
+        path = @local_path_config.scenario_execution_folder(scenario_execution, sej)
+        FileUtils.mkpath path
+        sej.generate_config_files path, scenario_execution_mapping
+      end
     end
   end
 
@@ -83,7 +82,7 @@ class DeploymentService
   def copy_jars_and_configs_to_machine(machine, scenario_execution)
     raise "Machine #{machine.instance_id} doesn't have an ip!" if machine.ip_address.to_s.blank?
 
-    DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh| #, key_data: @machine.private_key
+    DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh|
       ssh.check_deleted(@remote_directory)
 
       create_remote_folders(ssh)
@@ -106,8 +105,14 @@ class DeploymentService
   end
 
   def upload!(file, helper, scenario_execution)
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
     helper.check_existence("#{@remote_directory}/#{File.basename(file)}")
+  end
+
+  def upload_sej!(file, helper, scenario_execution, sej)
+    helper.exec!("mkdir #{@remote_directory}/#{sej.id}")
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/#{sej.id}/", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
+    helper.check_existence("#{@remote_directory}/#{sej.id}/#{File.basename(file)}")
   end
 
   def copy_dependencies(helper, scenario_execution)
@@ -117,9 +122,12 @@ class DeploymentService
   end
 
   def copy_configs(helper, scenario_execution)
-    path = @local_path_config.scenario_execution_folder(scenario_execution)
-    Dir["#{path}/*.*"].each do |file|
-      upload!(file, helper, scenario_execution)
+    scenario_execution.scenario_execution_jvms.each do |sej|
+      path = @local_path_config.scenario_execution_folder(scenario_execution, sej)
+      @remote_path_config
+      Dir["#{path}/*.*"].each do |file|
+        upload_sej!(file, helper, scenario_execution, sej)
+      end
     end
   end
 
@@ -149,10 +157,12 @@ class DeploymentService
 
       ssh.exec!('killall java')
 
-      jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
-      jars << [@remote_path_config.remote_run_jar_path]
+      scenario_execution.scenario_execution_jvms.each do |sej|
+        jars = ssh.exec!("cd \"#{@remote_directory}\" && ls").split(' ').select { |s| s.end_with?('.jar') }.map { |s| "#{@remote_directory}/#{s}" }
+        jars << [@remote_path_config.remote_run_jar_path]
+        ssh.exec(@jar_executor.command_for_client(jars, sej, @remote_path_config.remote_system_log_dir))
+      end
 
-      ssh.exec(@jar_executor.command_for_client(jars, scenario_execution, @remote_path_config.remote_system_log_dir))
     end
   end
 end

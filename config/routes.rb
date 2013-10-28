@@ -1,8 +1,4 @@
 EthzAslTestmaster::Application.routes.draw do
-  
-  
-  
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   resources :scenarios
   resources :machine_configs
   resources :machines
@@ -12,6 +8,7 @@ EthzAslTestmaster::Application.routes.draw do
     member do
       get :start
       get :stop
+      get :download
     end
   end
 

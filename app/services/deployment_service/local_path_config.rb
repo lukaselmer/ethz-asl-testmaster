@@ -23,8 +23,8 @@ class DeploymentService::LocalPathConfig
     "#{run_path}/machines"
   end
 
-  def scenario_execution_folder(scenario_execution)
-    "#{machines_path}/#{scenario_execution.config_folder}"
+  def scenario_execution_folder(scenario_execution, sej)
+    "#{machines_path}/#{scenario_execution.config_folder}/#{sej.id}"
   end
 
   def collected_logs_path
@@ -33,5 +33,13 @@ class DeploymentService::LocalPathConfig
 
   def scenario_execution_logs_path(scenario_execution)
     "#{collected_logs_path}/#{scenario_execution.config_folder}"
+  end
+
+  def zip_status_file
+    "#{run_path}/zipping.txt"
+  end
+
+  def zip_file
+    "#{run_path}/logs.zip"
   end
 end

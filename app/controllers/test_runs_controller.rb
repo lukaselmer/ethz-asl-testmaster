@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :start, :stop, :edit, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json
@@ -52,6 +52,11 @@ class TestRunsController < ApplicationController
     render :show
   end
 
+  def download
+    zipfile = @test_run.zip_logs
+    send_file zipfile
+  end
+
   # GET /test_runs/new
   def new
     redirect_to scenarios_path, alert: 'Create some scenarios first' and return if Scenario.default_scenarios.empty?
@@ -100,7 +105,9 @@ class TestRunsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def test_run_params
-    params.require(:test_run).permit(:name, :config, scenarios_attributes: [:id, :name, :execution_multiplicity, :config_template, :_destroy])
+    params.require(:test_run).permit(:name, :config, scenarios_attributes:
+        [:id, :name, :execution_multiplicity, :config_template,
+         :execution_multiplicity_per_machine, :scenario_type, :_destroy])
   end
 
 end

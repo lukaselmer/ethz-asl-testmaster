@@ -21,10 +21,6 @@ describe 'Test run stopper' do
     t.should_receive(:collect_logs).with(se2)
     t.should_receive(:collect_logs).with(se3)
 
-    t.should_receive(:analyze_logs).with(se1)
-    t.should_receive(:analyze_logs).with(se2)
-    t.should_receive(:analyze_logs).with(se3)
-
     t.stop
   end
 
