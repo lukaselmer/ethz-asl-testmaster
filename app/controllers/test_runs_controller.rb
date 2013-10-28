@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :clone, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json
@@ -50,6 +50,13 @@ class TestRunsController < ApplicationController
   def stop
     @test_run.stop
     render :show
+  end
+
+  def clone
+    to_clone = @test_run
+    @test_run = TestRun.new_with_test_run(to_clone)
+    @test_run.name = to_clone.clone_name
+    render :new
   end
 
   def download

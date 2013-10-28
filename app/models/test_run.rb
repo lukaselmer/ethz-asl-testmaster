@@ -7,13 +7,30 @@ class TestRun < ActiveRecord::Base
   accepts_nested_attributes_for :scenarios, reject_if: :all_blank, allow_destroy: true
 
   def self.new_with_default_scenarios
+    new_with_scenarios(Scenario.default_scenarios.to_a)
+  end
+
+  def self.new_with_test_run(test_run_to_clone)
+    new_with_scenarios(test_run_to_clone.scenarios.to_a)
+  end
+
+  def self.new_with_scenarios(scenarios_to_clone)
     test_run = new
-    test_run.scenarios = Scenario.default_scenarios.map do |s|
+    test_run.scenarios = scenarios_to_clone.map do |s|
       s = s.dup
       s.test_run = test_run
       s
     end
     test_run
+  end
+
+  def clone_name
+    regex = /clone (\d+)\z/
+    match = regex.match(name)
+    return "#{name} clone 1" unless match
+    id = match[1].to_i
+
+    name.gsub(regex, "clone #{id + 1}")
   end
 
   def started?
