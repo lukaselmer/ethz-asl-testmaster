@@ -6,6 +6,8 @@ class TestRun < ActiveRecord::Base
 
   accepts_nested_attributes_for :scenarios, reject_if: :all_blank, allow_destroy: true
 
+  default_scope { order('created_at desc') }
+
   def self.new_with_default_scenarios
     new_with_scenarios(Scenario.default_scenarios.to_a)
   end
