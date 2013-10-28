@@ -1,5 +1,7 @@
 <h1>Test Runs</h1>
 
+<p>Current time: <strong><%= l Time.now %></strong></p>
+
 <table class="table">
   <thead>
     <tr>
@@ -21,8 +23,8 @@
       <tr>
         <td><%= test_run.state %></td>
         <td><%= test_run.name %></td>
-        <td><%= test_run.started_at %></td>
-        <td><%= test_run.ended_at %></td>
+        <td><%= l test_run.started_at if test_run.started_at %></td>
+        <td><%= l test_run.ended_at if test_run.ended_at %></td>
         <td><%= test_run.config %></td>
         <th>
           <%= link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} %>
