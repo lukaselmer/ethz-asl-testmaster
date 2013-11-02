@@ -32,6 +32,7 @@ class DeploymentService
 
     m = MachineService.new
     m.ensure_aws_instances(@test_run.total_instances)
+    m.start_aws_instances(@test_run.total_instances)
 
     mapping = generate_scenario_machine_mapping(@test_run)
     stop_java_on_machines(mapping)

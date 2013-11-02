@@ -11,7 +11,7 @@ class MachineService
   end
 
   def my_instances
-    @ec2.instances.to_a.select { |i| i.user_data == @server_id && i.status != :terminated }
+    machines_ordered_by_id.to_a.select { |i| i.user_data == @server_id && i.status != :terminated }
   end
 
   def consistency_check!
@@ -35,14 +35,33 @@ class MachineService
   end
 
   def ensure_aws_instances(should_count)
-    raise "something might be wrong, should_count = #{should_count}!" if should_count > 10
+    raise "something might be wrong, should_count = #{should_count} (max 10 machines allowed)!" if should_count > 10
     sync_aws_instances
     has_count = Machine.count
     return if should_count <= has_count
     create_new_machines(should_count - has_count)
+    sync_aws_instances
+  end
+
+  def start_aws_instances(count)
+    ids_to_start = Machine.limit(count).to_a.map{|m| m.instance_id}
+    instances_to_start = my_instances.select{|i| ids_to_start.include?(i.instance_id) && i.status != :running}
+
+    instances_to_start.each do |i|
+      puts "Starting machine #{i.instance_id}"
+      i.start
+    end
+
+    instances_to_start.each do |i|
+      sleep 0.5 until i.status == :running
+      puts "Started machine #{i.instance_id}"
+    end
   end
 
   def sync_aws_instances
+    Machine.all.each do |m|
+      m.update_attribute :status, 'unknown'
+    end
     instances = my_instances
     instances.each do |i|
       m = Machine.where(instance_id: i.instance_id).first
