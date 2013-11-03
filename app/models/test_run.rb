@@ -104,4 +104,17 @@ class TestRun < ActiveRecord::Base
 
     ZipFileGenerator.new(input_dir, zip_file_name).write
   end
+
+  def parse_additional_fields
+    s = scenarios.first
+    return '' if s.nil?
+
+    %w(broker.workerthread.count broker.db.connectionpool.size).map do |k|
+      t = s.config_template
+      regex = /^#{k}\s*=\s*(\d*)/
+      m = t.match regex
+      next unless m
+      "<span class=\"badge badge-success\">#{m[1]}</span> #{k}"
+    end.compact.join(', ').html_safe
+  end
 end
