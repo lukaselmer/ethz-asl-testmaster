@@ -1,10 +1,11 @@
 class TestRunCron
   def initialize
     @ssh_user = ENV['AWS_SSH_USER']
+    @machine_service = MachineService.new
   end
 
   def run
-    MachineService.new.sync_aws_instances
+    @machine_service.sync_aws_instances
 
     running_test = query_running_test
     if running_test
@@ -17,9 +18,10 @@ class TestRunCron
       if test_to_start
         start_test test_to_start
       else
-        #any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 1.hour.ago]).any?
-        any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 5.minutes.ago]).any?
-        stop_my_machines unless any_test_ran_until_1_hour_ago
+        any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 1.hour.ago]).any?
+        return if any_test_ran_until_1_hour_ago
+        stop_my_machines
+        @machine_service.sync_aws_instances
       end
     end
   end
@@ -29,8 +31,7 @@ class TestRunCron
   end
 
   def stop_my_machines
-    m = MachineService.new
-    m.stop_all
+    @machine_service.stop_all
   end
 
   def query_running_test

@@ -13,9 +13,9 @@ describe 'Test run stopper' do
 
     t = TestRunStopper.new(test_run, 0)
 
-    t.should_receive(:stop_scenario_execution).with(se1)
-    t.should_receive(:stop_scenario_execution).with(se2)
-    t.should_receive(:stop_scenario_execution).with(se3)
+    #t.should_receive(:stop_scenario_execution).with(se1)
+    #t.should_receive(:stop_scenario_execution).with(se2)
+    #t.should_receive(:stop_scenario_execution).with(se3)
 
     t.should_receive(:collect_logs).with(se1)
     t.should_receive(:collect_logs).with(se2)
@@ -40,7 +40,7 @@ describe 'Test run stopper' do
     test_run = TestRun.new(started_at: Time.now, scenarios: [sc1])
 
     t = TestRunStopper.new(test_run, 0)
-    t.stub(:stop_scenario_execution)
+    #t.stub(:stop_scenario_execution)
     t.stub(:collect_logs)
     t.stub(:analyze_logs)
 

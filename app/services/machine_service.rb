@@ -51,9 +51,9 @@ class MachineService
   end
 
   def stop_all
-    stop_db_instance
+    instances_to_stop = (my_instances << @ec2.instances[ENV['MLMQ_DB_AWS_ID']]).select{|i| i.status != :stopped}
 
-    my_instances.each do |i|
+    instances_to_stop.each do |i|
       puts "Stopping machine #{i.instance_id}"
       i.stop
     end
@@ -62,13 +62,6 @@ class MachineService
       sleep 0.5 until i.status == :stopped
       puts "Stopped machine #{i.instance_id}"
     end
-  end
-
-  def stop_db_instance
-    i = @ec2.instances[ENV['MLMQ_DB_AWS_ID']]
-    return if i.status == :stopped
-    i.stop
-    sleep 0.5 until i.status == :stopped
   end
 
   def start_aws_instances(count)

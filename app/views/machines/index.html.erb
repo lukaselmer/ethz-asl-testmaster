@@ -14,7 +14,7 @@
 
   <tbody>
   <% @machines.each do |machine| %>
-    <tr>
+    <tr class="<%= machine_state_css_class(machine) %>">
       <% Machine::AWS_FIELDS.each do |f| %>
         <td><%= machine.send(f) %></td>
       <% end %>
