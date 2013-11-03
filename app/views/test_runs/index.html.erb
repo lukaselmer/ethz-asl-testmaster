@@ -2,6 +2,12 @@
 
 <p>Current date / time: <strong><%= l Time.now, format: :short %></strong></p>
 
+<p>
+  <%= link_to 'Unarchived', test_runs_path, class: 'btn btn-primary' %>
+  <%= link_to 'Archived', test_runs_path(archived: true), class: 'btn' %>
+  <%= link_to 'All', test_runs_path(all: true), class: 'btn' %>
+</p>
+
 <table class="table">
   <thead>
   <tr>
@@ -53,6 +59,7 @@
         <%= link_to 'Clone', [:clone, test_run], class: 'btn btn-mini btn-default' %>
         <%= link_to 'Show', test_run, class: 'btn btn-mini' %>
         <%= link_to 'Edit', edit_test_run_path(test_run), class: 'btn btn-mini' %>
+        <%= link_to 'Archive', archive_test_run_path(test_run), class: 'btn btn-mini' %>
         <%= link_to 'Destroy', test_run, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-mini btn-danger' %></td>
       </td>
     </tr>

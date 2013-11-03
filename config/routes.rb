@@ -10,6 +10,7 @@ EthzAslTestmaster::Application.routes.draw do
       get :stop
       get :download
       get :clone
+      get :archive
     end
   end
 

@@ -1,10 +1,19 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :clone, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :clone, :archive, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json
   def index
     @test_runs = TestRun.all
+    @test_runs = @test_runs.archived if params[:archived]
+    @test_runs = @test_runs.unarchived if !params[:all] && !params[:archived]
+  end
+
+  def archive
+    @test_run.archived_at = Time.now
+    @test_run.save
+
+    redirect_to test_runs_path, notice: 'Test run was archived successfully'
   end
 
   # GET /test_runs/1

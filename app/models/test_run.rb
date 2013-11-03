@@ -9,6 +9,8 @@ class TestRun < ActiveRecord::Base
   default_scope { order('created_at desc') }
 
   scope :ready_to_start, -> { where(started_at: nil, autostart: true) }
+  scope :archived, -> { where('archived_at is not null') }
+  scope :unarchived, -> { where(archived_at: nil) }
 
   def self.new_with_default_scenarios
     new_with_scenarios(Scenario.default_scenarios.to_a)
