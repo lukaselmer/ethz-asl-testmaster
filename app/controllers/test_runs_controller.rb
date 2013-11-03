@@ -113,7 +113,7 @@ class TestRunsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def test_run_params
     params.require(:test_run).permit(:name, :config, scenarios_attributes:
-        [:id, :name, :execution_multiplicity, :config_template,
+        [:id, :name, :execution_multiplicity, :config_template, :autostart,
          :execution_multiplicity_per_machine, :scenario_type, :_destroy])
   end
 

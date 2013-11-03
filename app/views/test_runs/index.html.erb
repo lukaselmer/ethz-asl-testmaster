@@ -1,42 +1,49 @@
 <h1>Test Runs</h1>
 
-<p>Current time: <strong><%= l Time.now %></strong></p>
+<p>Current date / time: <strong><%= l Time.now, format: :short %></strong></p>
 
 <table class="table">
   <thead>
-    <tr>
-      <th>State</th>
-      <th>Name</th>
-      <th>Started at</th>
-      <th>Ended at</th>
-      <th>Config</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+  <tr>
+    <th>ID</th>
+    <th>State</th>
+    <th>Name</th>
+    <th>Started at</th>
+    <th>Ended at</th>
+    <th>Autostart</th>
+    <th>Actions</th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @test_runs.each do |test_run| %>
-      <tr class="state-<%= test_run.state %>">
-        <td><%= test_run.state %></td>
-        <td><%= test_run.name %></td>
-        <td><%= l test_run.started_at if test_run.started_at %></td>
-        <td><%= l test_run.ended_at if test_run.ended_at %></td>
-        <td><%= test_run.config %></td>
-        <th>
-          <%= link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} %>
-          <%= link_to 'Stop', [:stop, test_run], class: 'btn btn-mini btn-warning', data: {confirm: 'Are you sure?'} %>
-          <%= link_to 'Download', [:download, test_run], class: 'btn btn-mini btn-default' %>
-          <%= link_to 'Clone', [:clone, test_run], class: 'btn btn-mini btn-default' %>
-        </th>
-        <td><%= link_to 'Show', test_run %></td>
-        <td><%= link_to 'Edit', edit_test_run_path(test_run) %></td>
-        <td><%= link_to 'Destroy', test_run, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+  <% @test_runs.each do |test_run| %>
+    <tr class="<%= test_run_state_css_class(test_run) %>">
+      <td rowspan="2"><%= test_run.id %></td>
+      <td><%= test_run.state %></td>
+      <td><%= test_run.name %></td>
+      <td><%= l(test_run.started_at, format: :short) if test_run.started_at %></td>
+      <td><%= l(test_run.ended_at, format: :short) if test_run.ended_at %></td>
+      <td><%= test_run.autostart %></td>
+      <td>
+        <%= link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} %>
+        <%= link_to 'Stop', [:stop, test_run], class: 'btn btn-mini btn-warning', data: {confirm: 'Are you sure?'} %>
+        <%= link_to 'Download', [:download, test_run], class: 'btn btn-mini btn-default' %>
+        <%= link_to 'Clone', [:clone, test_run], class: 'btn btn-mini btn-default' %>
+
+        <%= link_to 'Show', test_run, class: 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_test_run_path(test_run), class: 'btn btn-mini' %>
+        <%= link_to 'Destroy', test_run, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-mini btn-danger' %></td>
+      </td>
+    </tr>
+    <tr class="<%= test_run_state_css_class(test_run) %>">
+      <td colspan="6">
+        <%= test_run.scenarios.collect do |s|
+          tot = s.execution_multiplicity * s.execution_multiplicity_per_machine
+          "#{s.execution_multiplicity}×#{s.execution_multiplicity_per_machine} #{s.name.underscore.humanize.downcase.pluralize(tot)}"
+          end.join(', ') + ' (machines × instances per machine)' %>
+      </td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 
