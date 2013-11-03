@@ -26,7 +26,7 @@
         <% end %>
       </td>
       <td>
-        <% if test_run.started_at %>
+        <% if test_run.ended_at %>
           <%= time_ago_in_words(test_run.ended_at) %> ago, <%= l(test_run.ended_at, format: :short) %>
         <% end %>
       </td>
