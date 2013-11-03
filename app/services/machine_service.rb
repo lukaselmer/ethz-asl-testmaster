@@ -43,9 +43,38 @@ class MachineService
     sync_aws_instances
   end
 
+  def start_db_instance
+    i = @ec2.instances[ENV['MLMQ_DB_AWS_ID']]
+    return if i.status == :running
+    i.start
+    sleep 0.5 until i.status == :running
+  end
+
+  def stop_all
+    stop_db_instance
+
+    my_instances.each do |i|
+      puts "Stopping machine #{i.instance_id}"
+      i.stop
+    end
+
+    my_instances.each do |i|
+      sleep 0.5 until i.status == :stopped
+      puts "Stopped machine #{i.instance_id}"
+    end
+  end
+
+  def stop_db_instance
+    i = @ec2.instances[ENV['MLMQ_DB_AWS_ID']]
+    return if i.status == :stopped
+    i.stop
+    sleep 0.5 until i.status == :stopped
+  end
+
   def start_aws_instances(count)
-    ids_to_start = Machine.limit(count).to_a.map{|m| m.instance_id}
-    instances_to_start = my_instances.select{|i| ids_to_start.include?(i.instance_id) && i.status != :running}
+    ids_to_start = Machine.order('instance_id asc').limit(count).to_a.map { |m| m.instance_id }
+    instances_to_start = my_instances.select { |i| ids_to_start.include?(i.instance_id) && i.status != :running }
+    return if instances_to_start.empty?
 
     instances_to_start.each do |i|
       puts "Starting machine #{i.instance_id}"
@@ -56,6 +85,8 @@ class MachineService
       sleep 0.5 until i.status == :running
       puts "Started machine #{i.instance_id}"
     end
+
+    sleep 60
   end
 
   def sync_aws_instances

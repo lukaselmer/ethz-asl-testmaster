@@ -8,6 +8,8 @@ class TestRun < ActiveRecord::Base
 
   default_scope { order('created_at desc') }
 
+  scope :ready_to_start, -> { where(started_at: nil, autostart: true) }
+
   def self.new_with_default_scenarios
     new_with_scenarios(Scenario.default_scenarios.to_a)
   end
@@ -24,6 +26,10 @@ class TestRun < ActiveRecord::Base
       s
     end
     test_run
+  end
+
+  def machines
+    scenarios.includes(scenario_executions: [:machine]).map(&:scenario_executions).map(&:to_a).flatten.map(&:machine)
   end
 
   def clone_name

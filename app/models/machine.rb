@@ -5,25 +5,18 @@ class Machine < ActiveRecord::Base
 
   TEST_STATES = [:idle, :testing, :log_collection]
 
+  scope :ready, -> { where(status: :running) }
+
   def self.create_by_aws_instance!(instance)
     create!(test_state: :idle, instance_id: instance.instance_id)
   end
 
   def sync_with_aws_instance(instance)
+    raise 'Cannot change instance id once set!' if (!instance_id.blank? && instance.instance_id != instance_id)
+
     AWS_FIELDS.each do |f|
       send("#{f}=", instance.send(f))
     end
     save!
   end
-
-  #def set_aws_instance(aws_instance)
-  #  @aws_instance = aws_instance
-  #end
-
-  #AWS_FIELDS.each do |field|
-  #  define_method(field) do
-  #    return nil if @aws_instance.nil?
-  #    @aws_instance.send(field)
-  #  end
-  #end
 end

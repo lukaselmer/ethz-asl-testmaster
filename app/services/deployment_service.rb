@@ -31,6 +31,7 @@ class DeploymentService
     check_associated_scenarios!
 
     m = MachineService.new
+    m.start_db_instance
     m.ensure_aws_instances(@test_run.total_instances)
     m.start_aws_instances(@test_run.total_instances)
 

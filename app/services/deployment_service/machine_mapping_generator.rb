@@ -1,13 +1,14 @@
 module DeploymentService::MachineMappingGenerator
   def generate_scenario_machine_mapping(test_run)
     counters = {}
-    machines = Machine.all.to_a
+    machines = Machine.ready.order('instance_id asc').to_a
     test_run.scenarios.collect do |scenario|
       raise 'Scenario id not set' if scenario.id.nil?
       t = scenario.scenario_type
 
       counters[t] ||= 0
 
+      raise "machines.count < scenario.execution_multiplicity!" if machines.count < scenario.execution_multiplicity
       machines.pop(scenario.execution_multiplicity).collect { |m| create_scenario_execution!(scenario, m, counters, t) }
     end.flatten
   end

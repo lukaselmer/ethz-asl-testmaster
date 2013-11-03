@@ -26,7 +26,7 @@ class TestRunStopper
     TestRunStopper::LogCollector.new(@test_run, scenario_execution).collect_logs
   end
 
-  def analyze_logs(scenario_execution)
-    TestRunStopper::LogAnalyzer.new(@test_run, scenario_execution).analyze_logs
-  end
+  #def analyze_logs(scenario_execution)
+  #  TestRunStopper::LogAnalyzer.new(@test_run, scenario_execution).analyze_logs
+  #end
 end

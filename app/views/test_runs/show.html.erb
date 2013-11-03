@@ -1,92 +1,41 @@
 <%= show_for @test_run do |t| %>
   <%= t.attributes :name, :state %>
 
-  <% if @logs %>
-
-    <%= t.attribute :type do %>
-      <%= @type %>
+  <% unless @test_run.machines.empty? %>
+    <%= t.attribute :machines do |m| %>
+      <%= m.ip_address %><br/>
     <% end %>
-    <%= t.attribute :log_count do %>
-      <%= @logs.count %>
-    <% end %>
-    <%= t.attribute :average_execution_time_in_milliseconds do %>
-      <%= @logs.average(:execution_in_microseconds) %>
-    <% end %>
-    <%= t.attribute :min_execution_time_in_milliseconds do %>
-      <%= @logs.minimum(:execution_in_microseconds) %>
-    <% end %>
-    <%= t.attribute :max_execution_time_in_milliseconds do %>
-      <%= @logs.maximum(:execution_in_microseconds) %>
-    <% end %>
-    <% [:stddev, :stddev_pop, :stddev_samp, :variance, :var_pop, :var_samp].each do |meth| %>
-      <%= t.attribute meth do %>
-        <%= @logs.select("#{meth}(execution_in_microseconds) as id").to_a.first.id %>
-      <% end %>
-    <% end %>
-    <%= t.attribute :explanations do %>
-      <%= link_to 'Postgres Doc', 'http://www.postgresql.org/docs/9.1/static/functions-aggregate.html' %>
-    <% end %>
-
-    <%= high_chart('graph_for_type', @logs_graph) if @logs_graph %>
-
-    <%= link_to 'Back', test_run_path(@test_run), class: 'btn btn-primary' %>
-
-  <% else %>
-    <%= t.attribute :total_log_count do %>
-      <%= @test_run.test_run_logs.count %>
-    <% end %>
-
-    <%= t.attribute :log_types do %>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Type</th>
-          <th>Count</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @test_run.test_run_logs.group(:message_type).count(:id).each do |k, v| %>
-          <tr>
-            <td><%= link_to k, test_run_path(@test_run, type: k) %></td>
-            <td><span class="badge"><%= v %></span></td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    <% end %>
-
-    <%= link_to 'Export CSV', test_run_path(@test_run, export: true), class: 'btn btn-success' %><br/><br/>
-
-    <%= t.association :scenarios do %>
-
-      <table class="table table-condensed">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Execution multiplicity</th>
-          <th>Execution multiplicity per machine</th>
-          <th>Config template</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <% @test_run.scenarios.each do |scenario| %>
-          <tr>
-            <td><%= scenario.name %></td>
-            <td><%= scenario.execution_multiplicity %></td>
-            <td><%= scenario.execution_multiplicity_per_machine %></td>
-            <td>
-              <pre><%= scenario.config_template %></pre>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    <% end %>
-
-    <%= link_to 'Edit', edit_test_run_path(@test_run) %> |
-    <%= link_to 'Back', test_runs_path %>
-
   <% end %>
+
+  <%= t.association :scenarios do %>
+
+    <table class="table table-condensed">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Execution multiplicity</th>
+        <th>Execution multiplicity per machine</th>
+        <th>Config template</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @test_run.scenarios.each do |scenario| %>
+        <tr>
+          <td><%= scenario.name %></td>
+          <td><%= scenario.execution_multiplicity %></td>
+          <td><%= scenario.execution_multiplicity_per_machine %></td>
+          <td>
+            <pre><%= scenario.config_template %></pre>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <%= link_to 'Edit', edit_test_run_path(@test_run) %> |
+  <%= link_to 'Back', test_runs_path %>
+
 <% end %>
 
