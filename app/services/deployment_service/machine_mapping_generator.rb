@@ -1,7 +1,7 @@
 module DeploymentService::MachineMappingGenerator
   def generate_scenario_machine_mapping(test_run)
     MachineService.new.sync_aws_instances
-    
+
     counters = {}
     machines = Machine.ready.order('instance_id asc').to_a
     test_run.scenarios.collect do |scenario|

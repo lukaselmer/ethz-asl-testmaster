@@ -20,8 +20,16 @@
       <td rowspan="3"><%= test_run.id %></td>
       <td><%= test_run.state %></td>
       <td><%= test_run.name %></td>
-      <td><%= l(test_run.started_at, format: :short) if test_run.started_at %></td>
-      <td><%= l(test_run.ended_at, format: :short) if test_run.ended_at %></td>
+      <td>
+        <% if test_run.started_at %>
+          <%= time_ago_in_words(test_run.started_at) %> ago, <%= l(test_run.started_at, format: :short) %>
+        <% end %>
+      </td>
+      <td>
+        <% if test_run.started_at %>
+          <%= time_ago_in_words(test_run.ended_at) %> ago, <%= l(test_run.ended_at, format: :short) %>
+        <% end %>
+      </td>
       <td><%= test_run.autostart %></td>
     </tr>
     <tr class="<%= test_run_state_css_class(test_run) %>">
