@@ -1,5 +1,7 @@
 module DeploymentService::MachineMappingGenerator
   def generate_scenario_machine_mapping(test_run)
+    MachineService.new.sync_aws_instances
+    
     counters = {}
     machines = Machine.ready.order('instance_id asc').to_a
     test_run.scenarios.collect do |scenario|
@@ -7,8 +9,10 @@ module DeploymentService::MachineMappingGenerator
       t = scenario.scenario_type
 
       counters[t] ||= 0
-
-      raise "machines.count < scenario.execution_multiplicity!" if machines.count < scenario.execution_multiplicity
+      if machines.count < scenario.execution_multiplicity
+        s = "machines.count (#{machines.count}) < scenario.execution_multiplicity (#{scenario.execution_multiplicity})! Total machines count: #{Machine.ready.count}, "
+        raise s
+      end
       machines.pop(scenario.execution_multiplicity).collect { |m| create_scenario_execution!(scenario, m, counters, t) }
     end.flatten
   end
