@@ -3,7 +3,7 @@
   <%= f.input :execution_multiplicity, hint: 'The amount of amazon machines which should run this scenario' %>
   <%= f.input :execution_multiplicity_per_machine, hint: 'The amount of JVMs per machine' %>
   <%= f.input :scenario_type, as: :radio_buttons, collection: %w(client broker), label_method: -> (s) { s.humanize } %>
-  <%= f.input :config_template, input_html: {cols: 200, rows: 50} %>
+  <%= f.input :config_template, input_html: {class: 'input-block-level', cols: 200, rows: 50} %>
   <%= link_to_remove_association 'Remove scenario', f,
                                  class: 'btn btn-danger btn-sm' if f.object.new_record? || f.object.test_run.try(:state) == :not_started %>
 </div>
