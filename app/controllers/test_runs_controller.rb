@@ -70,7 +70,7 @@ class TestRunsController < ApplicationController
 
   def download
     zipfile = @test_run.zip_logs
-    send_file zipfile
+    send_file zipfile, filename: "test_run_#{@test_run.id}.zip"
   end
 
   # GET /test_runs/new
