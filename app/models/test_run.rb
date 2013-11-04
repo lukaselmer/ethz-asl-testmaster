@@ -8,7 +8,7 @@ class TestRun < ActiveRecord::Base
 
   default_scope { order('created_at desc') }
 
-  scope :ready_to_start, -> { where(started_at: nil, autostart: true) }
+  scope :ready_to_start, -> { where(started_at: nil, autostart: true).reorder('id asc') }
   scope :archived, -> { where('archived_at is not null') }
   scope :unarchived, -> { where(archived_at: nil) }
 
