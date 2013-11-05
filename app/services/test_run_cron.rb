@@ -18,7 +18,7 @@ class TestRunCron
       if test_to_start
         start_test test_to_start
       else
-        any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 1.hour.ago]).any?
+        any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 30.minutes.ago]).any?
         return if any_test_ran_until_1_hour_ago
         stop_my_machines
         @machine_service.sync_aws_instances
