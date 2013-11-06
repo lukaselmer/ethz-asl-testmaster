@@ -53,8 +53,8 @@
     </tr>
     <tr class="<%= test_run_state_css_class(test_run) %>">
       <td colspan="5">
-        <%= link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} unless test_run.started? %>
-        <%= link_to 'Stop', [:stop, test_run], class: 'btn btn-mini btn-warning', data: {confirm: 'Are you sure?'} unless test_run.ended? %>
+        <%# = link_to 'Start', [:start, test_run], class: 'btn btn-mini btn-success', data: {confirm: 'Are you sure?'} unless test_run.started? %>
+        <%# = link_to 'Stop', [:stop, test_run], class: 'btn btn-mini btn-warning', data: {confirm: 'Are you sure?'} unless test_run.ended? %>
         <%= link_to 'Download', [:download, test_run], class: 'btn btn-mini btn-default' %>
         <%= link_to 'Clone', [:clone, test_run], class: 'btn btn-mini btn-default' %>
         <%= link_to 'Show', test_run, class: 'btn btn-mini' %>
