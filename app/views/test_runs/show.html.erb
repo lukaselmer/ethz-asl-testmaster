@@ -13,6 +13,7 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Scenario Executions</th>
         <th>Execution multiplicity</th>
         <th>Execution multiplicity per machine</th>
         <th>Config template</th>
@@ -23,6 +24,17 @@
       <% @test_run.scenarios.each do |scenario| %>
         <tr>
           <td><%= scenario.name %></td>
+          <td>
+            <% scenario.scenario_executions.each do |se| %>
+              <% next unless se.machine %>
+              <div><b>IP: <%= se.machine.ip_address %></b></div>
+              <div>
+                <% se.scenario_execution_jvms.collect { |sej| "ID: #{sej.id}, port: #{sej.port}, position: #{sej.position}".html_safe }.each do |sej| %>
+                  <div><%= sej %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </td>
           <td><%= scenario.execution_multiplicity %></td>
           <td><%= scenario.execution_multiplicity_per_machine %></td>
           <td>
