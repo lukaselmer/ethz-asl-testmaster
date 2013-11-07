@@ -59,7 +59,7 @@ class TestRunsController < ApplicationController
     l = LogAnalyzerService.new
     file_path = l.analyze @test_run, params[:type], params[:output_format], window_size
 
-    send_file file_path
+    send_file file_path unless file_path.nil?
   end
 
   #def start
