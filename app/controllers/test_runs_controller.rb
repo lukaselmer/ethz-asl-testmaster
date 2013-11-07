@@ -132,7 +132,7 @@ class TestRunsController < ApplicationController
   end
 
   def init_types
-    types = %w(CSndReq CSndReq#Error CSndReq#Ok BDb BRcvReq BSndResp BProcReq#QueuesWithPendingMessagesRequest BTotReqResp)
+    types = %w(CSndReq CSndReq#Error CSndReq#OK BDb BRcvReq BSndResp BProcReq#QueuesWithPendingMessagesRequest BTotReqResp)
 
     "[#{types.collect { |t| "\"#{t}\"" }.join(',')}]"
   end
