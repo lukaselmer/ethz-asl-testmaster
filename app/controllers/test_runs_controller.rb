@@ -52,6 +52,7 @@ class TestRunsController < ApplicationController
   end
 
   def analyze
+    @types = init_types
     return if params[:type].blank?
     window_size = calc_window_size(params)
 
@@ -128,6 +129,12 @@ class TestRunsController < ApplicationController
     params[:window_size_minutes].to_i * 60 * 1000 +
         params[:window_size_seconds].to_i * 1000 +
         params[:window_size_milliseconds].to_i
+  end
+
+  def init_types
+    types = %w(CSndReq CSndReq#Error CSndReq#Ok BDb BRcvReq BSndResp BProcReq#QueuesWithPendingMessagesRequest BTotReqResp)
+
+    "[#{types.collect { |t| "\"#{t}\"" }.join(',')}]"
   end
 
   # Use callbacks to share common setup or constraints between actions.

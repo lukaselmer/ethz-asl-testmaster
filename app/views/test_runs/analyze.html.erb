@@ -1,7 +1,8 @@
 <%= form_tag do %>
 
   <%= label_tag 'type', 'Type of message' %>
-  <%= text_field_tag 'type' %>
+  <%= text_field_tag 'type', '', autocomplete: 'off', 'data-provide' => 'typeahead',
+                     'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
   <% %i(minutes seconds milliseconds).each do |t| %>
@@ -14,7 +15,7 @@
   <%= label_tag 'output_format', 'Output Format' %>
   <% %i(csv gnu-png gnu-eps).each do |t| %>
     <%= label_tag("output_format_#{t}", class: :radio) do %>
-      <%= radio_button_tag(:output_format, t) %> <%= t.to_s.humanize %>
+      <%= radio_button_tag(:output_format, t, t == 'gnu-eps'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
   <% end %>
 
