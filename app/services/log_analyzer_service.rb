@@ -24,7 +24,7 @@ class LogAnalyzerService
     @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
     @cmd_executor.exec!("rm #{c.analyzer_out_file}")
 
-    params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size}"
+    params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size} > #{c.analyzer_out_file}"
     @jar_executor.execute_log_analyzer params
 
     c.analyzer_out_file
