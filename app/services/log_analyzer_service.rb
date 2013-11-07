@@ -26,7 +26,7 @@ class LogAnalyzerService
     @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
     @cmd_executor.exec!("rm #{outfile}")
 
-    params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size} > #{outfile}"
+    params = "-d #{c.collected_logs_path} -type '#{type}' -fmt '#{output_format}' -w '#{window_size}' > #{outfile}"
     @jar_executor.execute_log_analyzer params
 
     if output_format.start_with? 'gnu-'
