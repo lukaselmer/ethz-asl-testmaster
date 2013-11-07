@@ -18,7 +18,7 @@ class DeploymentService
     @remote_directory = @remote_path_config.remote_directory
 
     @git_cloner = DeploymentService::GitCloner.new(@cmd_executor, @local_path_config.local_tmp_dir)
-    @jar_compiler = DeploymentService::JarCompiler.new(@cmd_executor, @git_cloner.git_path, @local_path_config.jar_path, @local_path_config.setup_path)
+    @jar_compiler = DeploymentService::JarCompiler.new(@cmd_executor, @git_cloner.git_path, @local_path_config.jar_path, @local_path_config.setup_path, 'mlmq')
     @jar_executor = DeploymentService::JarExecutor.new(@cmd_executor, @jar_compiler, @remote_directory)
   end
 

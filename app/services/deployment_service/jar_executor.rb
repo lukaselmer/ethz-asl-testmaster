@@ -31,8 +31,20 @@ class DeploymentService::JarExecutor
     @cmd_executor.exec! "#{common_cmd} -dropDatabase -createDatabase -createTables"
   end
 
-  def base_command(dir, jars)
-    main_class = 'ch.ethz.mlmq.main.Main'
+  def execute_log_analyzer(params)
+    jars = []
+    Dir["#{@compiled_dependencies_path}/*.*"].each do |file|
+      dest = "#{@jar_compiler.setup_path}/#{File.basename(file)}"
+      FileUtils.copy file, dest
+      jars << dest
+    end
+    jars << @setup_jar_path
+
+    common_cmd = "#{base_command(@jar_compiler.setup_path, jars, 'ch.ethz.mlmq.log_analyzer.Main')} #{params}"
+    @cmd_executor.exec! common_cmd
+  end
+
+  def base_command(dir, jars, main_class = 'ch.ethz.mlmq.main.Main')
     "cd \"#{dir}\" && java -cp \"#{jars.join(':')}\" #{main_class}"
   end
 

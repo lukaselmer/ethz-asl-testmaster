@@ -1,9 +1,10 @@
 class DeploymentService::JarCompiler
 
-  def initialize(cmd_executor, git_path, jar_path, setup_path)
+  def initialize(cmd_executor, git_path, jar_path, setup_path, project)
     @setup_path = setup_path
     @cmd_executor = cmd_executor
     @git_path = git_path
+    @project = project
     @compiled_jar_path = "#{mvn_path}/target/ASL-0.0.1-SNAPSHOT.jar"
     @jar_path = jar_path
   end
@@ -26,6 +27,6 @@ class DeploymentService::JarCompiler
   end
 
   def mvn_path
-    "#{@git_path}/code/mlmq"
+    "#{@git_path}/code/#{@project}"
   end
 end

@@ -14,4 +14,9 @@ class HomeController < ApplicationController
 
     @logs = IO.readlines(logfile_tail).reverse
   end
+
+  def build_log_analyzer
+    LogAnalyzerService.new.build
+    redirect_to '/', notice: "Log analizer built!"
+  end
 end

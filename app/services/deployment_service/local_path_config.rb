@@ -42,4 +42,12 @@ class DeploymentService::LocalPathConfig
   def zip_file
     "#{run_path}/logs.zip"
   end
+
+  def analyzer_out_path
+    "#{run_path}/analized_logs"
+  end
+
+  def analyzer_out_file(ext='out')
+    "#{analyzer_out_path}/out#{ext ? ".#{ext}" : ''}"
+  end
 end

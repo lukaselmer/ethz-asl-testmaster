@@ -6,14 +6,15 @@ EthzAslTestmaster::Application.routes.draw do
 
   resources :test_runs do
     member do
-      get :start
-      get :stop
+      get :analyze
+      post :analyze
       get :download
       get :clone
       get :archive
     end
   end
 
+  get '/build_log_analyzer', to: 'home#build_log_analyzer', as: 'build_log_analyzer'
   get '/logs', to: 'home#logs', as: 'logs'
   root to: 'home#index'
 

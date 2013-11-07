@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :start, :stop, :download, :edit, :clone, :archive, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :download, :analyze, :edit, :clone, :archive, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json
@@ -51,15 +51,25 @@ class TestRunsController < ApplicationController
     end
   end
 
-  def start
-    @test_run.start
-    render :show
+  def analyze
+    return if params[:type].blank?
+    window_size = calc_window_size(params)
+
+    l = LogAnalyzerService.new
+    file_path = l.analyze @test_run, params[:type], params[:output_format], window_size
+
+    send_file file_path
   end
 
-  def stop
-    @test_run.stop
-    render :show
-  end
+  #def start
+  #  @test_run.start
+  #  render :show
+  #end
+
+  #def stop
+  #  @test_run.stop
+  #  render :show
+  #end
 
   def clone
     to_clone = @test_run
@@ -114,6 +124,12 @@ class TestRunsController < ApplicationController
   end
 
   private
+  def calc_window_size(params)
+    params[:window_size_minutes].to_i * 60 * 1000 +
+        params[:window_size_seconds].to_i * 1000 +
+        params[:window_size_milliseconds].to_i
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_test_run
     @test_run = TestRun.find(params[:id])
