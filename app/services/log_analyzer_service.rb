@@ -21,13 +21,15 @@ class LogAnalyzerService
     build unless File.exist? @run_jar
 
     c = DeploymentService::LocalPathConfig.new(test_run)
-    @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
-    @cmd_executor.exec!("rm #{c.analyzer_out_file}")
+    outfile = c.analyzer_out_file(output_format)
 
-    params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size} > #{c.analyzer_out_file}"
+    @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
+    @cmd_executor.exec!("rm #{outfile}")
+
+    params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size} > #{outfile}"
     @jar_executor.execute_log_analyzer params
 
-    c.analyzer_out_file
+    outfile
   end
 
 end
