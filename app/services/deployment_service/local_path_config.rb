@@ -47,7 +47,7 @@ class DeploymentService::LocalPathConfig
     "#{run_path}/analized_logs"
   end
 
-  def analyzer_out_file(ext='out')
-    "#{analyzer_out_path}/out#{ext ? ".#{ext}" : ''}"
+  def analyzer_out_file(test_run, ext='out')
+    "#{analyzer_out_path}/#{test_run.id}_#{Time.now.strftime('%Y%m%d_%H%M%S_%L')}_#{ext ? ".#{ext}" : ''}"
   end
 end

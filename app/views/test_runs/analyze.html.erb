@@ -1,5 +1,7 @@
 <h1>Analyze logs of test run <%= @test_run.id %></h1>
 
+<%= link_to 'Build log analyzer', build_log_analyzer_path, class: 'btn btn-default' %><br/><br/>
+
 <%= form_tag do %>
 
   <%= label_tag 'type', 'Type of message' %>
@@ -22,9 +24,8 @@
   <% end %>
 
   <div class="form-actions">
-    <%= submit_tag :submit, class: 'btn btn-default' %>
+    <%= submit_tag 'Generate Plot', class: 'btn btn-primary' %>
   </div>
 <% end %>
 
-<%= link_to 'Build log analyzer', build_log_analyzer_path, class: 'btn btn-primary' %>
 <%= link_to 'Back', test_runs_path, class: 'btn btn-default' %>

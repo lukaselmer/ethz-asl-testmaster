@@ -21,7 +21,7 @@ class LogAnalyzerService
     build unless File.exist? @run_jar
 
     c = DeploymentService::LocalPathConfig.new(test_run)
-    outfile = c.analyzer_out_file(output_format)
+    outfile = c.analyzer_out_file(test_run, output_format)
 
     @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
     @cmd_executor.exec!("rm #{outfile}")
@@ -31,7 +31,7 @@ class LogAnalyzerService
 
     if output_format.start_with? 'gnu-'
       ext = output_format.split('-')[1]
-      img_outfile = c.analyzer_out_file(ext)
+      img_outfile = c.analyzer_out_file(test_run, ext)
       @cmd_executor.exec!("gnuplot #{outfile} > #{img_outfile}")
       outfile = img_outfile
     end
