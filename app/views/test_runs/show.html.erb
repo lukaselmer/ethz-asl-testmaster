@@ -28,6 +28,7 @@
             <% scenario.scenario_executions.each do |se| %>
               <% next unless se.machine %>
               <div><b>IP: <%= se.machine.ip_address %></b></div>
+              <div><b>InstID: <%= se.machine.instance_id %></b></div>
               <div>
                 <% se.scenario_execution_jvms.collect { |sej| "ID: #{sej.id}, port: #{sej.port}, position: #{sej.position}".html_safe }.each do |sej| %>
                   <div><%= sej %></div>
