@@ -15,12 +15,12 @@ describe TestRunsController do
       get('/test_runs/1').should route_to('test_runs#show', :id => '1')
     end
 
-    it 'routes to #start' do
-      get('/test_runs/1/start').should route_to('test_runs#start', :id => '1')
+    it 'routes to #download' do
+      get('/test_runs/1/download').should route_to('test_runs#download', :id => '1')
     end
 
-    it 'routes to #stop' do
-      get('/test_runs/1/stop').should route_to('test_runs#stop', :id => '1')
+    it 'routes to #analize' do
+      get('/test_runs/1/analyze').should route_to('test_runs#analyze', :id => '1')
     end
 
     it 'routes to #edit' do
