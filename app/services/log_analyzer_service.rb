@@ -29,6 +29,13 @@ class LogAnalyzerService
     params = "-d #{c.collected_logs_path} -type #{type} -fmt #{output_format} -w #{window_size} > #{outfile}"
     @jar_executor.execute_log_analyzer params
 
+    if output_format.start_with? 'Gnu-'
+      ext = output_format.split('-')[1]
+      img_outfile = c.analyzer_out_file(ext)
+      @cmd_executor.exec!("gnuplot #{outfile} > #{img_outfile}")
+      outfile = img_outfile
+    end
+
     outfile
   end
 
