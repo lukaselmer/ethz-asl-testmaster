@@ -6,7 +6,7 @@ class DeploymentService::EnhancedSSH
   end
 
   def self.start(host, user)
-    Net::SSH.start(host, user, keys: [ENV['AWS_SSH_KEY_PATH']]) do |ssh_raw|
+    Net::SSH.start(host, user, keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false) do |ssh_raw|
       enhanced_ssh = new(ssh_raw)
       enhanced_ssh.ensure_connection!(user)
       yield(enhanced_ssh)
