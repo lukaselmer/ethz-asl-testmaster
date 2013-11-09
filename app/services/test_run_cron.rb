@@ -36,7 +36,7 @@ class TestRunCron
 
   def query_running_test
     tests = TestRun.all.to_a.select do |test_run|
-      test_run.running?
+      test_run.running? || test_run.stopped?
     end
     #raise 'Multiple tests are running at the same time!' if tests.size > 1
     tests.first
