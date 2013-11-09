@@ -102,18 +102,18 @@ class DeploymentService
   end
 
   def copy_jar(helper, scenario_execution)
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @local_path_config.jar_path, @remote_path_config.remote_run_jar_path, ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, @local_path_config.jar_path, @remote_path_config.remote_run_jar_path, ssh: {keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false})
     helper.check_existence(@remote_path_config.remote_run_jar_path)
   end
 
   def upload!(file, helper, scenario_execution)
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false})
     helper.check_existence("#{@remote_directory}/#{File.basename(file)}")
   end
 
   def upload_sej!(file, helper, scenario_execution, sej)
     helper.exec!("mkdir #{@remote_directory}/#{sej.id}")
-    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/#{sej.id}/", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']]})
+    Net::SCP.upload!(scenario_execution.machine.ip_address, @ssh_user, file, "#{@remote_directory}/#{sej.id}/", ssh: {keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false})
     helper.check_existence("#{@remote_directory}/#{sej.id}/#{File.basename(file)}")
   end
 
