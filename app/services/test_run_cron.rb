@@ -11,15 +11,18 @@ class TestRunCron
     if running_test
       return if test_run_still_running? running_test
 
+      puts "#{Time.now}: Stopping test #{running_test.id}"
       # So, the test is not running anymore => stop it and collect logs
       TestRunStopper.new(running_test).stop
     else
       test_to_start = TestRun.ready_to_start.first
       if test_to_start
+        puts "#{Time.now}: Starting test #{test_to_start.id}"
         start_test test_to_start
       else
         any_test_ran_until_1_hour_ago = TestRun.where(['ended_at > ?', 30.minutes.ago]).any?
         return if any_test_ran_until_1_hour_ago
+        puts "#{Time.now}: Shutting down machines"
         stop_my_machines
         @machine_service.sync_aws_instances
       end
