@@ -5,5 +5,7 @@ Hi there! :)
 <ul>
   <li><%= link_to 'Download Server Logs Tail', logs_path(lines: 10000) %></li>
   <li><%= link_to 'Show Server Logs Tail', logs_path(lines: 1000, show: true) %></li>
+  <li><%= link_to 'Download Cron Logs Tail', logs_path(lines: 10000, cron: true) %></li>
+  <li><%= link_to 'Show Cron Logs Tail', logs_path(lines: 1000, cron: true, show: true) %></li>
   <li><%= link_to 'Build log analyzer', build_log_analyzer_path %></li>
 </ul>

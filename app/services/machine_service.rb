@@ -1,6 +1,7 @@
 class MachineService
 
-  def initialize
+  def initialize(logger = Rails.logger)
+    @logger = logger
     @ec2 = AWS.ec2
     @client = @ec2.client
     @server_id = ENV['SERVER_ID']
@@ -54,13 +55,13 @@ class MachineService
     instances_to_stop = (my_instances << @ec2.instances[ENV['MLMQ_DB_AWS_ID']]).select{|i| i.status != :stopped}
 
     instances_to_stop.each do |i|
-      puts "Stopping machine #{i.instance_id}"
+      @logger.info "Stopping machine #{i.instance_id}"
       i.stop
     end
 
     my_instances.each do |i|
       sleep 0.5 until i.status == :stopped
-      puts "Stopped machine #{i.instance_id}"
+      @logger.info "Stopped machine #{i.instance_id}"
     end
   end
 
@@ -70,13 +71,13 @@ class MachineService
     return if instances_to_start.empty?
 
     instances_to_start.each do |i|
-      puts "Starting machine #{i.instance_id}"
+      @logger.info "Starting machine #{i.instance_id}"
       i.start
     end
 
     instances_to_start.each do |i|
       sleep 0.5 until i.status == :running
-      puts "Started machine #{i.instance_id}"
+      @logger.info "Started machine #{i.instance_id}"
     end
 
     sleep 60
@@ -101,7 +102,7 @@ class MachineService
     options[:count] = count
     options[:availability_zone] = ENV['AWS_ZONE']
     options[:user_data] = @server_id
-    options[:instance_type] = 't1.micro'
+    options[:instance_type] = 'm1.small'
     #options[:subnet] = 'vpc-e440528f'
     options[:image_id] = 'ami-843ed8f3'
     options[:security_group_ids] = ['sg-e316e28c']
