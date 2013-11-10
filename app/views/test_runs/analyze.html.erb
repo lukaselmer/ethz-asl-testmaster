@@ -30,6 +30,9 @@
     <% end %>
   <% end %>
 
+  <%= label_tag 'other[startup_cooldown_time]', 'Startup and cooldown time in ms' %>
+  <%= text_field_tag 'other[startup_cooldown_time]', 1000 * 60 * 5 %>
+
   <%= label_tag 'other[x_axis_label]', 'xAxis label' %>
   <%= text_field_tag 'other[x_axis_label]', 'Time bucket, xxx min buckets (use window size??)' %>
 
@@ -39,7 +42,7 @@
   <%= label_tag 'other[diagram_title]', 'Title' %>
   <%= text_field_tag 'other[diagram_title]', 'Response Time' %>
 
-  <% [:a, :b, :c, :e, :f, :g, :h, :i].each do |o| %>
+  <% [:some, :other, :option].each do |o| %>
     <%= label_tag "other[#{o}]", "Option -#{o}" %>
     <%= text_field_tag "other[#{o}]", '' %>
   <% end %>
