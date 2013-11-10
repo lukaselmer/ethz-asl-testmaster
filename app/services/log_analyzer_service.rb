@@ -27,7 +27,7 @@ class LogAnalyzerService
     @cmd_executor.exec!("rm #{outfile}")
 
     other_str = other.collect{|k,v| v.blank? ? '' : " -#{k} '#{v}'"}.join('')
-    params = "-d #{c.collected_logs_path} -fmt '#{output_format}' -w '#{window_size}#{other_str}' > #{outfile}"
+    params = "-d #{c.collected_logs_path} -fmt '#{output_format}' -w '#{window_size}'#{other_str} > #{outfile}"
     @jar_executor.execute_log_analyzer params
 
     if output_format.start_with? 'gnu-'
