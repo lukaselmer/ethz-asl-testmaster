@@ -56,7 +56,6 @@ class TestRunsController < ApplicationController
     return if params[:other].blank?
     window_size = calc_window_size(params)
     params[:other][:startup_cooldown_time] = calc_startup_cooldown_time(params)
-    send params[:other][:startup_cooldown_time]
 
     l = LogAnalyzerService.new
     file_path = l.analyze @test_run, params[:output_format], window_size, params[:other]
