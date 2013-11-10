@@ -17,7 +17,7 @@ class LogAnalyzerService
 
   end
 
-  def analyze(test_run, type, output_format, window_size)
+  def analyze(test_run, output_format, window_size, other)
     build unless File.exist? @run_jar
 
     c = DeploymentService::LocalPathConfig.new(test_run)
@@ -26,7 +26,8 @@ class LogAnalyzerService
     @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
     @cmd_executor.exec!("rm #{outfile}")
 
-    params = "-d #{c.collected_logs_path} -type '#{type}' -fmt '#{output_format}' -w '#{window_size}' > #{outfile}"
+    other_str = other.collect{|k,v| v.blank? ? '' : " -#{k} '#{v}'"}.join('')
+    params = "-d #{c.collected_logs_path} -fmt '#{output_format}' -w '#{window_size}#{other_str}' > #{outfile}"
     @jar_executor.execute_log_analyzer params
 
     if output_format.start_with? 'gnu-'

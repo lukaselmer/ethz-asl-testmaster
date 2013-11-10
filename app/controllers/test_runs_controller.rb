@@ -53,11 +53,11 @@ class TestRunsController < ApplicationController
 
   def analyze
     @types = init_types
-    return if params[:type].blank?
+    return if params[:other].blank?
     window_size = calc_window_size(params)
 
     l = LogAnalyzerService.new
-    file_path = l.analyze @test_run, params[:type], params[:output_format], window_size
+    file_path = l.analyze @test_run, params[:output_format], window_size, params[:other]
 
     send_file file_path unless file_path.nil?
   end

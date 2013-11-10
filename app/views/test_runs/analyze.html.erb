@@ -4,8 +4,8 @@
 
 <%= form_tag do %>
 
-  <%= label_tag 'type', 'Type of message' %>
-  <%= text_field_tag 'type', '', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%= label_tag 'other[type]', 'Type of message' %>
+  <%= text_field_tag 'other[type]', '', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
@@ -21,6 +21,20 @@
     <%= label_tag("output_format_#{t}", class: :radio) do %>
       <%= radio_button_tag(:output_format, t, t == 'gnu-eps'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
+  <% end %>
+
+  <%= label_tag 'other[x]', 'xAxis label' %>
+  <%= text_field_tag 'other[x]', 'Time bucket, xxx min buckets (use window size??)' %>
+
+  <%= label_tag 'other[y]', 'yAxis label' %>
+  <%= text_field_tag 'other[y]', 'Response time in ms' %>
+
+  <%= label_tag 'other[t]', 'Title' %>
+  <%= text_field_tag 'other[t]', 'Response Time' %>
+
+  <% [:a, :b, :c, :e, :f, :g, :h, :i].each do |o| %>
+    <%= label_tag "other[#{o}]", "Option -#{o}" %>
+    <%= text_field_tag "other[#{o}]", '' %>
   <% end %>
 
   <div class="form-actions">
