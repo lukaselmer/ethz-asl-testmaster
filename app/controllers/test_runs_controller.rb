@@ -55,6 +55,8 @@ class TestRunsController < ApplicationController
     @types = init_types
     return if params[:other].blank?
     window_size = calc_window_size(params)
+    params[:other][:startup_cooldown_time] = calc_startup_cooldown_time(params)
+    send params[:other][:startup_cooldown_time]
 
     l = LogAnalyzerService.new
     file_path = l.analyze @test_run, params[:output_format], window_size, params[:other]
@@ -129,6 +131,12 @@ class TestRunsController < ApplicationController
     params[:window_size_minutes].to_i * 60 * 1000 +
         params[:window_size_seconds].to_i * 1000 +
         params[:window_size_milliseconds].to_i
+  end
+
+  def calc_startup_cooldown_time(params)
+    params[:other][:startup_cooldown_time][:minutes].to_i * 60 * 1000 +
+        params[:other][:startup_cooldown_time][:seconds].to_i * 1000 +
+        params[:other][:startup_cooldown_time][:milliseconds].to_i
   end
 
   def init_types
