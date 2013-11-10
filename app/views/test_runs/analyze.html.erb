@@ -4,8 +4,8 @@
 
 <%= form_tag do %>
 
-  <%= label_tag 'other[type]', 'Type of message' %>
-  <%= text_field_tag 'other[type]', '', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%= label_tag 'other[message_type]', 'Type of message' %>
+  <%= text_field_tag 'other[message_type]', '', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
@@ -23,14 +23,14 @@
     <% end %>
   <% end %>
 
-  <%= label_tag 'other[x]', 'xAxis label' %>
-  <%= text_field_tag 'other[x]', 'Time bucket, xxx min buckets (use window size??)' %>
+  <%= label_tag 'other[x_axis_label]', 'xAxis label' %>
+  <%= text_field_tag 'other[x_axis_label]', 'Time bucket, xxx min buckets (use window size??)' %>
 
-  <%= label_tag 'other[y]', 'yAxis label' %>
-  <%= text_field_tag 'other[y]', 'Response time in ms' %>
+  <%= label_tag 'other[y_axis_label]', 'yAxis label' %>
+  <%= text_field_tag 'other[y_axis_label]', 'Response time in ms' %>
 
-  <%= label_tag 'other[t]', 'Title' %>
-  <%= text_field_tag 'other[t]', 'Response Time' %>
+  <%= label_tag 'other[diagram_title]', 'Title' %>
+  <%= text_field_tag 'other[diagram_title]', 'Response Time' %>
 
   <% [:a, :b, :c, :e, :f, :g, :h, :i].each do |o| %>
     <%= label_tag "other[#{o}]", "Option -#{o}" %>
