@@ -23,6 +23,13 @@
     <% end %>
   <% end %>
 
+  <%= label_tag 'diagram_type', 'Diagram Type' %>
+  <% %i(response_time throughput).each do |t| %>
+    <%= label_tag("diagram_type_#{t}", class: :radio) do %>
+      <%= radio_button_tag(:output_format, t, t == 'response_time'.to_sym) %> <%= t.to_s.humanize %>
+    <% end %>
+  <% end %>
+
   <%= label_tag 'other[x_axis_label]', 'xAxis label' %>
   <%= text_field_tag 'other[x_axis_label]', 'Time bucket, xxx min buckets (use window size??)' %>
 
