@@ -17,7 +17,7 @@
   <% end %>
 
   <%= label_tag 'output_format', 'Output Format' %>
-  <% %i(csv gnu-png gnu-eps).each do |t| %>
+  <% %i(csv gnu-png gnu-eps txt).each do |t| %>
     <%= label_tag("output_format_#{t}", class: :radio) do %>
       <%= radio_button_tag(:output_format, t, t == 'gnu-eps'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
