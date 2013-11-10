@@ -73,7 +73,7 @@ describe TestRunsController do
     it 'assigns the requested test_run as @test_run' do
       test_run = TestRun.create! valid_attributes
       LogAnalyzerService.any_instance.should_receive(:analyze)
-      get :analyze, {id: test_run.to_param, type: 'test', }, valid_session
+      get :analyze, {id: test_run.to_param, other: {message_type: 'test'}, }, valid_session
       assigns(:test_run).should eq(test_run)
     end
   end
