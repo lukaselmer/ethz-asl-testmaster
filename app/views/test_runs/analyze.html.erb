@@ -47,9 +47,9 @@
   <%= label_tag 'other[diagram_title]', 'Title' %>
   <%= text_field_tag 'other[diagram_title]', 'Response Time' %>
 
-  <% [:some, :other, :option].each do |o| %>
-    <%= label_tag "other[#{o}]", "Option -#{o}" %>
-    <%= text_field_tag "other[#{o}]", '' %>
+  <%# [:some, :other, :option].each do |o| % >
+    <%= label_tag "other[#{o}]", "Option -#{o}" % >
+    <%= text_field_tag "other[#{o}]", '' % >
   <% end %>
 
   <div class="form-actions">
