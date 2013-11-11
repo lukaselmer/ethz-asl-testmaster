@@ -19,6 +19,10 @@ class LogAnalyzerService
 
   end
 
+  def valid_file?(f)
+    File.exist?(f) && !File.zero?(f)
+  end
+
   def analyze(test_run, output_format, window_size, other)
     build unless File.exist? @run_jar
 
@@ -26,7 +30,7 @@ class LogAnalyzerService
     ext = c.analyzer_ext(output_format, :raw)
     outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :raw, ANALYZER_VERSION)
 
-    unless File.exist? outfile
+    unless valid_file? outfile
       @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
       @cmd_executor.exec!("rm #{outfile}")
 
@@ -37,7 +41,7 @@ class LogAnalyzerService
 
     if %w(png eps).include? output_format
       img_outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :out, ANALYZER_VERSION)
-      @cmd_executor.exec!("gnuplot #{outfile} > #{img_outfile}") unless File.exist? img_outfile
+      @cmd_executor.exec!("gnuplot #{outfile} > #{img_outfile}") unless valid_file? outfile
       outfile = img_outfile
     end
 
