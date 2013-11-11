@@ -53,7 +53,7 @@ class DeploymentService::LocalPathConfig
   end
 
   def analyzer_ext(ext, step)
-    "#{exp}.gnu" if step == :raw && %w(png eps).include?(ext)
+    "#{ext}.gnu" if step == :raw && %w(png eps).include?(ext)
   end
 
   def analyzer_out_file(test_run, ext, window_size, other, step)
