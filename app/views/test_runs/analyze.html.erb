@@ -5,13 +5,13 @@
 <%= form_tag do %>
 
   <%= label_tag 'other[message_type]', 'Type of message' %>
-  <%= text_field_tag 'other[message_type]', '', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%= text_field_tag 'other[message_type]', 'CSndReq#OK', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
   <% %i(minutes seconds milliseconds).each do |t| %>
     <div class="input-append">
-      <%= text_field_tag "window_size_#{t}", (t==:minutes ? 2 : 0), placeholder: t, class: 'span1' %>
+      <%= text_field_tag "window_size_#{t}", (t==:minutes ? 1 : 0), placeholder: t, class: 'span1' %>
       <span class="add-on"><%= t %></span>
     </div>
   <% end %>
@@ -34,28 +34,28 @@
     <% end %>
   <% end %>
 
-  <%= label_tag 'other[startup_cooldown_time][minutes]', 'Startup / cooldown time' %>
+  <%= label_tag 'other[startup_cooldown_time][minutes]', 'Warmup / Cooldown Time' %>
   <% %i(minutes seconds milliseconds).each do |t| %>
     <div class="input-append">
-      <%= text_field_tag "other[startup_cooldown_time][#{t}]", (t==:minutes ? 5 : 0), placeholder: t, class: 'span1' %>
+      <%= text_field_tag "other[startup_cooldown_time][#{t}]", (t==:minutes ? 2 : 0), placeholder: t, class: 'span1' %>
       <span class="add-on"><%= t %></span>
     </div>
   <% end %>
 
   <%= label_tag 'other[x_axis_label]', 'xAxis label' %>
-  <%= text_field_tag 'other[x_axis_label]', 'Time bucket, xxx min buckets (use window size??)' %>
+  <%= text_field_tag 'other[x_axis_label]', 'Time in seconds after test start' %>
 
   <%= label_tag 'other[y_axis_label]', 'yAxis label' %>
   <%= text_field_tag 'other[y_axis_label]', 'Response time in ms' %>
 
   <%= label_tag 'other[diagram_title]', 'Title' %>
-  <%= text_field_tag 'other[diagram_title]', 'Response Time' %>
+  <%= text_field_tag 'other[diagram_title]', "Response Time for Test Run #{@test_run.id}" %>
 
   <%= label_tag 'other[line_label]', 'Line Label' %>
-  <%= text_field_tag 'other[line_label]', 'System X, config ABC' %>
+  <%= text_field_tag 'other[line_label]', "Response Time, Config of Test Run #{@test_run.id}" %>
 
   <%= label_tag 'other[percentile]', 'Percentile Offset in %' %>
-  <%= text_field_tag 'other[percentile]', '0.5' %>
+  <%= text_field_tag 'other[percentile]', '2.5' %>
 
   <% k = :percentile_or_stddev %>
   <% default = :percentile %>
