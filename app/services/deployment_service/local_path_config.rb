@@ -47,7 +47,12 @@ class DeploymentService::LocalPathConfig
     "#{run_path}/analized_logs"
   end
 
-  def analyzer_out_file(test_run, ext='out')
-    "#{analyzer_out_path}/#{test_run.id}_#{Time.now.strftime('%Y%m%d_%H%M%S_%L')}_#{ext ? ".#{ext}" : ''}"
+  def hash_code(window_size, other)
+    require 'digest'
+    Digest::SHA1.hexdigest("#{window_size.hash}_#{other.hash}")
+  end
+
+  def analyzer_out_file(test_run, ext, window_size, other)
+    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other)}_#{ext ? ".#{ext}" : ''}"
   end
 end
