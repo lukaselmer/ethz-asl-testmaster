@@ -76,6 +76,7 @@ class TestRunsController < ApplicationController
   def clone
     to_clone = @test_run
     @test_run = TestRun.new_with_test_run(to_clone)
+    @test_run.config = @test_run.scenarios.first.try :config_template
     @test_run.name = to_clone.clone_name
     render :new
   end
@@ -89,6 +90,7 @@ class TestRunsController < ApplicationController
   def new
     redirect_to scenarios_path, alert: 'Create some scenarios first' and return if Scenario.default_scenarios.empty?
     @test_run = TestRun.new_with_default_scenarios
+    @test_run.config = @test_run.scenarios.first.try :config_template
   end
 
   # GET /test_runs/1/edit
@@ -99,7 +101,11 @@ class TestRunsController < ApplicationController
   # POST /test_runs.json
   def create
     @test_run = TestRun.new(test_run_params)
-    @test_run.scenarios.map! { |s| s.test_run = @test_run; s }
+    @test_run.scenarios.map! do |s|
+      s.test_run = @test_run
+      s.config_template = @test_run.config
+      s
+    end
 
     if @test_run.save
       redirect_to @test_run, notice: 'Test run was successfully created.'
@@ -111,6 +117,11 @@ class TestRunsController < ApplicationController
   # PATCH/PUT /test_runs/1
   # PATCH/PUT /test_runs/1.json
   def update
+    @test_run.scenarios.map! do |s|
+      s.test_run = @test_run
+      s.config_template = @test_run.config
+      s
+    end
     if @test_run.update(test_run_params)
       redirect_to @test_run, notice: 'Test run was successfully updated.'
     else
