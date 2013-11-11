@@ -50,6 +50,9 @@
   <%= label_tag 'other[line_label]', 'Line Label' %>
   <%= text_field_tag 'other[line_label]', 'System X, config ABC' %>
 
+  <%= label_tag 'other[percentile]', 'Percentile Offset in %' %>
+  <%= text_field_tag 'other[percentile]', '0.5' %>
+
   <%# [:some, :other, :option].each do |o| % >
     <%= label_tag "other[#{o}]", "Option -#{o}" % >
     <%= text_field_tag "other[#{o}]", '' % >
