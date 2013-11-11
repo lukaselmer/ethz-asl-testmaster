@@ -53,12 +53,12 @@ class DeploymentService::LocalPathConfig
   end
 
   def analyzer_ext(ext, step)
-    "#{ext}.gnu" if step == :raw && %w(png eps).include?(ext)
+    (step == :raw && %w(png eps).include?(ext)) ? "#{ext}.gnu" : ext
   end
 
   def analyzer_out_file(test_run, ext, window_size, other, step)
     ext = analyzer_ext(ext, step)
 
-    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other)}_#{ext ? ".#{ext}" : ''}"
+    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other)}.#{ext}"
   end
 end
