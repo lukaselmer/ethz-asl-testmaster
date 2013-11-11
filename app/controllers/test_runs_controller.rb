@@ -129,13 +129,13 @@ class TestRunsController < ApplicationController
   def calc_window_size(params)
     params[:window_size_minutes].to_i * 60 * 1000 +
         params[:window_size_seconds].to_i * 1000 +
-        params[:window_size_milliseconds].to_i
+        params[:window_size_milliseconds].to_i rescue 1000 * 60 * 2
   end
 
   def calc_startup_cooldown_time(params)
     params[:other][:startup_cooldown_time][:minutes].to_i * 60 * 1000 +
         params[:other][:startup_cooldown_time][:seconds].to_i * 1000 +
-        params[:other][:startup_cooldown_time][:milliseconds].to_i
+        params[:other][:startup_cooldown_time][:milliseconds].to_i rescue 0
   end
 
   def init_types
