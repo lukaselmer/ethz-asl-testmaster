@@ -52,7 +52,13 @@ class DeploymentService::LocalPathConfig
     Digest::SHA1.hexdigest("#{window_size.hash}_#{other.hash}")
   end
 
-  def analyzer_out_file(test_run, ext, window_size, other)
+  def analyzer_ext(ext, step)
+    "#{exp}.gnu" if step == :raw && %w(png eps).include?(ext)
+  end
+
+  def analyzer_out_file(test_run, ext, window_size, other, step)
+    ext = analyzer_ext(ext, step)
+
     "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other)}_#{ext ? ".#{ext}" : ''}"
   end
 end

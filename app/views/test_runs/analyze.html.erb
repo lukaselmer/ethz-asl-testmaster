@@ -17,9 +17,9 @@
   <% end %>
 
   <%= label_tag 'output_format', 'Output Format' %>
-  <% %i(csv gnu-png gnu-eps txt).each do |t| %>
+  <% %i(csv png.gnu eps.gnu png eps txt).each do |t| %>
     <%= label_tag("output_format_#{t}", class: :radio) do %>
-      <%= radio_button_tag(:output_format, t, t == 'gnu-eps'.to_sym) %> <%= t.to_s.humanize %>
+      <%= radio_button_tag(:output_format, t, t == 'eps'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
   <% end %>
 
@@ -46,6 +46,9 @@
 
   <%= label_tag 'other[diagram_title]', 'Title' %>
   <%= text_field_tag 'other[diagram_title]', 'Response Time' %>
+
+  <%= label_tag 'other[line_label]', 'Line Label' %>
+  <%= text_field_tag 'other[line_label]', 'System X, config ABC' %>
 
   <%# [:some, :other, :option].each do |o| % >
     <%= label_tag "other[#{o}]", "Option -#{o}" % >
