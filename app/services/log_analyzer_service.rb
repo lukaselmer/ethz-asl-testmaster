@@ -21,7 +21,7 @@ class LogAnalyzerService
     build unless File.exist? @run_jar
 
     c = DeploymentService::LocalPathConfig.new(test_run)
-    ext = analyzer_ext(output_format, :raw)
+    ext = c.analyzer_ext(output_format, :raw)
     outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :raw)
 
     unless File.exist? outfile
