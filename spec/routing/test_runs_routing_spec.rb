@@ -19,7 +19,7 @@ describe TestRunsController do
       get('/test_runs/1/download').should route_to('test_runs#download', :id => '1')
     end
 
-    it 'routes to #analize' do
+    it 'routes to #analyze' do
       get('/test_runs/1/analyze').should route_to('test_runs#analyze', :id => '1')
     end
 

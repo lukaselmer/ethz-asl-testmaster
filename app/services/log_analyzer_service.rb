@@ -1,5 +1,7 @@
 class LogAnalyzerService
 
+  ANALYZER_VERSION = 1
+
   def initialize
     @cmd_executor = DeploymentService::CmdExecutor.new
     @local_tmp_dir = "#{Rails.root}/tmp/analyzer"
@@ -22,7 +24,7 @@ class LogAnalyzerService
 
     c = DeploymentService::LocalPathConfig.new(test_run)
     ext = c.analyzer_ext(output_format, :raw)
-    outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :raw)
+    outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :raw, ANALYZER_VERSION)
 
     unless File.exist? outfile
       @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
@@ -34,7 +36,7 @@ class LogAnalyzerService
     end
 
     if %w(png eps).include? output_format
-      img_outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :out)
+      img_outfile = c.analyzer_out_file(test_run, output_format, window_size, other, :out, ANALYZER_VERSION)
       @cmd_executor.exec!("gnuplot #{outfile} > #{img_outfile}") unless File.exist? img_outfile
       outfile = img_outfile
     end

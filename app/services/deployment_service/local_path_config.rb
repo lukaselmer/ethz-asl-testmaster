@@ -44,21 +44,21 @@ class DeploymentService::LocalPathConfig
   end
 
   def analyzer_out_path
-    "#{run_path}/analized_logs"
+    "#{run_path}/analyzed_logs"
   end
 
-  def hash_code(window_size, other)
+  def hash_code(window_size, other, analyzer_version)
     require 'digest'
-    Digest::SHA1.hexdigest("#{window_size.hash}_#{other.hash}")
+    Digest::SHA1.hexdigest("#{window_size.hash}_#{other.hash}_#{analyzer_version}")
   end
 
   def analyzer_ext(ext, step)
     (step == :raw && %w(png eps).include?(ext)) ? "#{ext}.gnu" : ext
   end
 
-  def analyzer_out_file(test_run, ext, window_size, other, step)
+  def analyzer_out_file(test_run, ext, window_size, other, step, analyzer_version)
     ext = analyzer_ext(ext, step)
 
-    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other)}.#{ext}"
+    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other, analyzer_version)}.#{ext}"
   end
 end

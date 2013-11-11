@@ -17,6 +17,6 @@ class HomeController < ApplicationController
 
   def build_log_analyzer
     LogAnalyzerService.new.build
-    redirect_to '/', notice: "Log analizer built!"
+    redirect_to '/', notice: "Log analyzer built!"
   end
 end
