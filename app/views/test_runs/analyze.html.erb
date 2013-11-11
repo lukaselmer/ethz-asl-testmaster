@@ -23,10 +23,14 @@
     <% end %>
   <% end %>
 
-  <%= label_tag 'other[diagram_type]', 'Diagram Type' %>
-  <% %i(response_time throughput).each do |t| %>
-    <%= label_tag("other[diagram_type]_#{t}", class: :radio) do %>
-      <%= radio_button_tag('other[diagram_type]', t, t == 'response_time'.to_sym) %> <%= t.to_s.humanize %>
+  <% k = :diagram_type %>
+  <% default = :response_time %>
+  <% values = %i(response_time throughput) %>
+  <% title = 'Diagram Type' %>
+  <%= label_tag "other[#{k}]", title %>
+  <% values.each do |t| %>
+    <%= label_tag("other[#{k}]_#{t}", class: :radio) do %>
+      <%= radio_button_tag("other[#{k}]", t, t == default) %> <%= t.to_s.humanize %>
     <% end %>
   <% end %>
 
@@ -53,9 +57,26 @@
   <%= label_tag 'other[percentile]', 'Percentile Offset in %' %>
   <%= text_field_tag 'other[percentile]', '0.5' %>
 
-  <%# [:some, :other, :option].each do |o| % >
-    <%= label_tag "other[#{o}]", "Option -#{o}" % >
-    <%= text_field_tag "other[#{o}]", '' % >
+  <% k = :percentile_or_stddev %>
+  <% default = :percentile %>
+  <% values = %i(percentile stddev) %>
+  <% title = 'Percentile or Stddev' %>
+  <%= label_tag "other[#{k}]", title %>
+  <% values.each do |t| %>
+    <%= label_tag("other[#{k}]_#{t}", class: :radio) do %>
+      <%= radio_button_tag("other[#{k}]", t, t == default) %> <%= t.to_s.humanize %>
+    <% end %>
+  <% end %>
+
+  <% k = :median_or_mean %>
+  <% default = :median %>
+  <% values = %i(median mean) %>
+  <% title = 'Median or Mean' %>
+  <%= label_tag "other[#{k}]", title %>
+  <% values.each do |t| %>
+    <%= label_tag("other[#{k}]_#{t}", class: :radio) do %>
+      <%= radio_button_tag("other[#{k}]", t, t == default) %> <%= t.to_s.humanize %>
+    <% end %>
   <% end %>
 
   <div class="form-actions">
