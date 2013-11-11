@@ -8,4 +8,6 @@ class Scenario < ActiveRecord::Base
   validates :scenario_type, presence: true, inclusion: %w(client broker)
 
   scope :default_scenarios, -> () { where(test_run_id: nil) }
+  
+  default_scope { order('name asc') }
 end
