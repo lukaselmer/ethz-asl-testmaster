@@ -5,7 +5,7 @@
 <%= form_tag do %>
 
   <%= label_tag 'other[message_type]', 'Type of message' %>
-  <%= text_field_tag 'other[message_type]', 'CSndReq#OK', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%= text_field_tag 'other[message_type]', 'BTotReqResp', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
@@ -19,7 +19,7 @@
   <%= label_tag 'output_format', 'Output Format' %>
   <% %i(csv png.gnu eps.gnu png eps txt).each do |t| %>
     <%= label_tag("output_format_#{t}", class: :radio) do %>
-      <%= radio_button_tag(:output_format, t, t == 'eps'.to_sym) %> <%= t.to_s.humanize %>
+      <%= radio_button_tag(:output_format, t, t == 'txt'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
   <% end %>
 
