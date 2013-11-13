@@ -12,4 +12,16 @@ namespace :cron do
     end
   end
 
+  task analyze: :environment do
+    lock_file = "#{Rails.root}/tmp/analyze.lock"
+    unless File.exist? lock_file
+      begin
+        File.open(lock_file, File::RDWR|File::CREAT, 0644).flock(File::LOCK_EX)
+        AnalyzeCron.new.run
+      ensure
+        File.delete(lock_file) if File.exist?(lock_file)
+      end
+    end
+  end
+
 end

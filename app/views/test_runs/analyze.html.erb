@@ -37,7 +37,7 @@
   <%= label_tag 'other[startup_cooldown_time][minutes]', 'Warmup / Cooldown Time' %>
   <% %i(minutes seconds milliseconds).each do |t| %>
     <div class="input-append">
-      <%= text_field_tag "other[startup_cooldown_time][#{t}]", (t==:minutes ? 2 : 0), placeholder: t, class: 'span1' %>
+      <%= text_field_tag "other[startup_cooldown_time][#{t}]", (t==:minutes ? 4 : 0), placeholder: t, class: 'span1' %>
       <span class="add-on"><%= t %></span>
     </div>
   <% end %>
