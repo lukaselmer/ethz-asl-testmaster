@@ -52,6 +52,7 @@ class TestRunsController < ApplicationController
   end
 
   def analyze
+    @generated_files = LogAnalyzerService.new.generated_files(@test_run)
     @types = init_types
     return if params[:other].blank?
     window_size = calc_window_size(params)
@@ -84,6 +85,13 @@ class TestRunsController < ApplicationController
   def download
     zipfile = @test_run.zip_logs
     send_file zipfile, filename: "test_run_#{@test_run.id}.zip"
+  end
+
+  def generated_files
+    l = LogAnalyzerService.new
+    @generated_files = l.generated_files(@test_run)
+    f = l.generated_file(@test_run, params[:f])
+    send_file f if File.exist?(f)
   end
 
   # GET /test_runs/new

@@ -9,6 +9,7 @@ EthzAslTestmaster::Application.routes.draw do
       get :analyze
       post :analyze
       get :download
+      get :generated_file
       get :clone
       get :archive
     end

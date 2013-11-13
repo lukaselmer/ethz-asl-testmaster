@@ -23,6 +23,18 @@ class LogAnalyzerService
     File.exist?(f) && !File.zero?(f)
   end
 
+  def generated_files(test_run)
+    c = DeploymentService::LocalPathConfig.new(test_run)
+    dir = c.analyzer_out_path
+    @cmd_executor.exec!("ls #{dir}").split("\n").compact
+  end
+
+  def generated_file(test_run, filename)
+    c = DeploymentService::LocalPathConfig.new(test_run)
+    dir = c.analyzer_out_path
+    "#{dir}/#{filename}"
+  end
+
   def analyze(test_run, output_format, window_size, other)
     build unless File.exist? @run_jar
 
