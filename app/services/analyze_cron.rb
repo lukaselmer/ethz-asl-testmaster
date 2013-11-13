@@ -11,7 +11,7 @@ class AnalyzeCron
     @ended_tests.each do |t|
       return if @ended_tests.size < ended_tests.size
 
-      %w(BTotReqResp).each do |message_type|
+      %w(CSndReq#OK BTotReqResp).each do |message_type|
         other = {'startup_cooldown_time' => 240000, 'message_type' => message_type}
 
         l = LogAnalyzerService.new

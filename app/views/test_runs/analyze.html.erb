@@ -5,7 +5,8 @@
 <%= form_tag do %>
 
   <%= label_tag 'other[message_type]', 'Type of message' %>
-  <%= text_field_tag 'other[message_type]', 'BTotReqResp', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%# BTotReqResp %>
+  <%= text_field_tag 'other[message_type]', 'CSndReq#OK', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
