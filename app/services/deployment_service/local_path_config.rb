@@ -47,8 +47,13 @@ class DeploymentService::LocalPathConfig
     "#{run_path}/analyzed_logs"
   end
 
-  def hash_code(window_size, other, analyzer_version)
+  def hash_code(output_format, window_size, other, analyzer_version, txt_analyzer_version = 1)
     require 'digest'
+    if output_format.to_sym == :txt
+      key = %w(message_type startup_cooldown_time).collect{|k| other[k]}.join('_')
+      return Digest::SHA1.hexdigest("#{key}_#{txt_analyzer_version}")
+    end
+
     Digest::SHA1.hexdigest("#{window_size.hash}_#{other.hash}_#{analyzer_version}")
   end
 
@@ -56,9 +61,9 @@ class DeploymentService::LocalPathConfig
     (step == :raw && %w(png eps).include?(ext)) ? "#{ext}.gnu" : ext
   end
 
-  def analyzer_out_file(test_run, ext, window_size, other, step, analyzer_version)
+  def analyzer_out_file(test_run, output_format, ext, window_size, other, step, analyzer_version)
     ext = analyzer_ext(ext, step)
 
-    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(window_size, other, analyzer_version)}.#{ext}"
+    "#{analyzer_out_path}/#{test_run.id}_#{hash_code(output_format, window_size, other, analyzer_version)}.#{ext}"
   end
 end
