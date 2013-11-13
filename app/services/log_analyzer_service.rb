@@ -32,7 +32,7 @@ class LogAnalyzerService
 
     unless valid_file? outfile
       @cmd_executor.exec!("mkdir #{c.analyzer_out_path}")
-      @cmd_executor.exec!("rm #{outfile}")
+      @cmd_executor.exec!("rm #{outfile}") if File.exist? outfile
 
       other_str = other.collect { |k, v| v.blank? ? '' : " -#{k} '#{v}'" }.join('')
       params = "-directory_to_log_files #{c.collected_logs_path} -output_format '#{ext}' -window_size '#{window_size}'#{other_str} > #{outfile}"
