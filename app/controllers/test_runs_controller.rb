@@ -87,7 +87,7 @@ class TestRunsController < ApplicationController
     send_file zipfile, filename: "test_run_#{@test_run.id}.zip"
   end
 
-  def generated_files
+  def generated_file
     l = LogAnalyzerService.new
     @generated_files = l.generated_files(@test_run)
     f = l.generated_file(@test_run, params[:f])
