@@ -14,6 +14,9 @@ class TestRunCron
       puts "#{Time.now}: Stopping test #{running_test.id}"
       # So, the test is not running anymore => stop it and collect logs
       TestRunStopper.new(running_test).stop
+      running_test.machines.each do |m|
+        kill_logs(m)
+      end
     else
       test_to_start = TestRun.ready_to_start.first
       if test_to_start
@@ -26,6 +29,14 @@ class TestRunCron
         stop_my_machines
         @machine_service.sync_aws_instances
       end
+    end
+  end
+
+  def kill_logs(machine)
+    DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh|
+      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests')
+      ssh.exec!('mkdir /home/ubuntu/messaging_system/tests')
+      !ssh.exec!('pgrep java').blank?
     end
   end
 
@@ -55,10 +66,9 @@ class TestRunCron
   def running_on_machine?(machine)
     DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh|
       # Hack / workaround!
-      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/11*')
-      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/12*')
-      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/13*')
-      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/14*')
+      #(110..151).each do |v|
+      #  ssh.exec!("rm -rf /home/ubuntu/messaging_system/tests/#{v}")
+      #end
       !ssh.exec!('pgrep java').blank?
     end
   end
