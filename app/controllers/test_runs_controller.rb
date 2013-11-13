@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :start, :stop, :download, :analyze, :edit, :clone, :archive, :update, :destroy]
+  before_action :set_test_run, only: [:show, :start, :stop, :download, :analyze, :generated_file, :edit, :clone, :archive, :update, :destroy]
 
   # GET /test_runs
   # GET /test_runs.json

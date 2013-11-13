@@ -89,7 +89,7 @@
 <h3>Generated Files</h3>
 <ul>
   <% @generated_files.each do |f| %>
-    <li><%= link_to f, generated_file_test_run_path(test_run: @test_run, f: f) %></li>
+    <li><%= link_to f, generated_file_test_run_path(f: f) %></li>
   <% end %>
 </ul>
 </p>
