@@ -6,7 +6,7 @@
 
   <%= label_tag 'other[message_type]', 'Type of message' %>
   <%# BTotReqResp %>
-  <%= text_field_tag 'other[message_type]', 'CSndReq#OK', autocomplete: 'off', 'data-provide' => 'typeahead',
+  <%= text_field_tag 'other[message_type]', 'CSndReq#OK,BTotReqResp,BDb', autocomplete: 'off', 'data-provide' => 'typeahead',
                      'data-source' => @types %>
 
   <%= label_tag 'window_size_minutes', 'Window Size' %>
@@ -20,7 +20,7 @@
   <%= label_tag 'output_format', 'Output Format' %>
   <% %i(csv png.gnu eps.gnu png eps txt).each do |t| %>
     <%= label_tag("output_format_#{t}", class: :radio) do %>
-      <%= radio_button_tag(:output_format, t, t == 'txt'.to_sym) %> <%= t.to_s.humanize %>
+      <%= radio_button_tag(:output_format, t, t == 'eps'.to_sym) %> <%= t.to_s.humanize %>
     <% end %>
   <% end %>
 
@@ -44,16 +44,16 @@
   <% end %>
 
   <%= label_tag 'other[x_axis_label]', 'xAxis label' %>
-  <%= text_field_tag 'other[x_axis_label]', 'Time in seconds after test start' %>
+  <%= text_field_tag 'other[x_axis_label]', 'Time in minutes after test start' %>
 
   <%= label_tag 'other[y_axis_label]', 'yAxis label' %>
   <%= text_field_tag 'other[y_axis_label]', 'Response time in ms' %>
 
   <%= label_tag 'other[diagram_title]', 'Title' %>
-  <%= text_field_tag 'other[diagram_title]', "Response Time for Test Run #{@test_run.id}" %>
+  <%= text_field_tag 'other[diagram_title]', "Response Time for 2h Test (Client vs. Middleware vs. Database), with 4 minutes startup/cooldown time, ID: #{@test_run.id}" %>
 
   <%= label_tag 'other[line_label]', 'Line Label' %>
-  <%= text_field_tag 'other[line_label]', "Response Time, Config of Test Run #{@test_run.id}" %>
+  <%= text_field_tag 'other[line_label]', "Client Response Time,Middleware Response Time,Database Response Time" %>
 
   <%= label_tag 'other[percentile]', 'Percentile Offset in %' %>
   <%= text_field_tag 'other[percentile]', '2.5' %>
