@@ -11,8 +11,14 @@ class AnalyzeCron
         l = LogAnalyzerService.new
 
         puts "Analyzing test run #{t.id} with message type #{message_type}..."
-        f = l.analyze(t, 'txt', 1000, other)
-        puts "Done analyzing test run #{t.id} with message type #{message_type}, output file #{f}"
+        begin
+          f = l.analyze(t, 'txt', 1000, other)
+          puts "Done analyzing test run #{t.id} with message type #{message_type}, output file #{f}"
+        rescue Exception => e
+          puts "Error analyzing test run #{t.id} with message type #{message_type}: #{e}"
+          puts e.message
+          puts e.backtrace.join("\n")
+        end
       end
     end
   end
