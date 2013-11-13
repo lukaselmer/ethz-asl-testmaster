@@ -54,6 +54,11 @@ class TestRunCron
 
   def running_on_machine?(machine)
     DeploymentService::EnhancedSSH.start(machine.ip_address, @ssh_user) do |ssh|
+      # Hack / workaround!
+      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/11*')
+      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/12*')
+      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/13*')
+      ssh.exec!('rm -rf /home/ubuntu/messaging_system/tests/14*')
       !ssh.exec!('pgrep java').blank?
     end
   end
