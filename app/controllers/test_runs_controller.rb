@@ -91,7 +91,13 @@ class TestRunsController < ApplicationController
     l = LogAnalyzerService.new
     @generated_files = l.generated_files(@test_run)
     f = l.generated_file(@test_run, params[:f])
-    send_file f if File.exist?(f)
+
+    unless File.exist?(f)
+      redirect_to @test_run, error: "File #{f} doesn't exist!"
+      return
+    end
+
+    send_file f
   end
 
   # GET /test_runs/new
