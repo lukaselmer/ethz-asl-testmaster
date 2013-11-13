@@ -26,7 +26,7 @@ class LogAnalyzerService
   def generated_files(test_run)
     c = DeploymentService::LocalPathConfig.new(test_run)
     dir = c.analyzer_out_path
-    @cmd_executor.exec!("ls #{dir}").split("\n").compact
+    @cmd_executor.exec!("ls -t #{dir}").split("\n").compact
   end
 
   def generated_file(test_run, filename)
