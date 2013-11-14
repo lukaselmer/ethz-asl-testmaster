@@ -36,7 +36,7 @@ class MachineService
   end
 
   def ensure_aws_instances(should_count)
-    raise "something might be wrong, should_count = #{should_count} (max 15 machines allowed)!" if should_count > 15
+    raise "something might be wrong, should_count = #{should_count} (max 50 machines allowed)!" if should_count > 50
     sync_aws_instances
     has_count = Machine.count
     return if should_count <= has_count
