@@ -1,6 +1,6 @@
 class LogAnalyzerService
 
-  ANALYZER_VERSION = 3
+  ANALYZER_VERSION = 4
 
   def initialize
     @cmd_executor = DeploymentService::CmdExecutor.new
