@@ -40,7 +40,7 @@ class DeploymentService::JarExecutor
     end
     jars << @setup_jar_path
 
-    common_cmd = "#{base_command(@jar_compiler.setup_path, jars, 'ch.ethz.mlmq.log_analyzer.Main')} #{params}"
+    common_cmd = "#{base_command(@jar_compiler.setup_path, jars, 'ch.ethz.mlmq.log_analyzer.Main')} #{params} 2>&1"
     @cmd_executor.exec! common_cmd
   end
 
