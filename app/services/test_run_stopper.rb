@@ -6,7 +6,7 @@ class TestRunStopper
   end
 
   def stop
-    raise "Test run #{@test_run.id} is not running!" unless @test_run.running?
+    raise "Test run #{@test_run.id} is ended!" if @test_run.ended?
     @test_run.update_attribute :stopped_at, Time.now
     scenario_executions = @test_run.scenarios.collect { |s| s.scenario_executions.to_a }.flatten
 
