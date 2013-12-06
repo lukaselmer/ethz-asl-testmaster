@@ -76,7 +76,7 @@ class MachineService
     end
 
     instances_to_start.each do |i|
-      sleep 0.5 until i.status == :running
+      sleep 10 until i.status == :running
       @logger.info "Started machine #{i.instance_id}"
     end
 
@@ -112,7 +112,9 @@ class MachineService
     new_instances = [new_instances] if count == 1
     new_machines = new_instances.to_a.collect do |instance|
       Machine.create_by_aws_instance!(instance)
+      instance.start unless instance.status == :running
     end
+    sleep 120
     sync_aws_instances
     new_machines
   end
