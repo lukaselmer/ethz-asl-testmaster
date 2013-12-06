@@ -14,6 +14,11 @@ class TestRunStopper::LogCollector
   end
 
   def download(source, dest)
-    Net::SCP.download!(@scenario_execution.machine.ip_address, @ssh_user, source, dest, recursive: true, ssh: {keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false})
+    begin
+      Net::SCP.download!(@scenario_execution.machine.ip_address, @ssh_user, source, dest, recursive: true, ssh: {keys: [ENV['AWS_SSH_KEY_PATH']], paranoid: false})
+    rescue Exception => e
+      puts "Error downloading #{source} from #{@scenario_execution.machine.ip_address} to #{dest}"
+      raise e
+    end
   end
 end
