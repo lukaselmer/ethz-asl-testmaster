@@ -8,6 +8,7 @@ namespace :cron do
         TestRunCron.new.run
       rescue => e
         ExceptionNotifier.notify_exception(e)
+        raise e
       ensure
         File.delete(lock_file) if File.exist?(lock_file)
       end
@@ -22,6 +23,7 @@ namespace :cron do
         AnalyzeCron.new.run
       rescue => e
         ExceptionNotifier.notify_exception(e)
+        raise e
       ensure
         File.delete(lock_file) if File.exist?(lock_file)
       end
