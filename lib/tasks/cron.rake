@@ -6,6 +6,8 @@ namespace :cron do
       begin
         File.open(lock_file, File::RDWR|File::CREAT, 0644).flock(File::LOCK_EX)
         TestRunCron.new.run
+      rescue => e
+        ExceptionNotifier.notify_exception(e)
       ensure
         File.delete(lock_file) if File.exist?(lock_file)
       end
@@ -18,6 +20,8 @@ namespace :cron do
       begin
         File.open(lock_file, File::RDWR|File::CREAT, 0644).flock(File::LOCK_EX)
         AnalyzeCron.new.run
+      rescue => e
+        ExceptionNotifier.notify_exception(e)
       ensure
         File.delete(lock_file) if File.exist?(lock_file)
       end
